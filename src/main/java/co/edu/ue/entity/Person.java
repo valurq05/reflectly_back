@@ -20,16 +20,18 @@ public class Person implements Serializable {
 	@Column(name="per_id")
 	private int perId;
 
+	@Column(name="per_document")
+	private String perDocument;
+
 	@Column(name="per_lastname")
 	private String perLastname;
 
 	@Column(name="per_name")
 	private String perName;
 
-	@Lob
 	@Column(name="per_photo")
 	private String perPhoto;
-//
+
 //	//bi-directional many-to-one association to User
 //	@OneToMany(mappedBy="person")
 //	private List<User> users;
@@ -43,6 +45,14 @@ public class Person implements Serializable {
 
 	public void setPerId(int perId) {
 		this.perId = perId;
+	}
+
+	public String getPerDocument() {
+		return this.perDocument;
+	}
+
+	public void setPerDocument(String perDocument) {
+		this.perDocument = perDocument;
 	}
 
 	public String getPerLastname() {
@@ -68,11 +78,11 @@ public class Person implements Serializable {
 	public void setPerPhoto(String perPhoto) {
 		this.perPhoto = perPhoto;
 	}
-
+//
 //	public List<User> getUsers() {
 //		return this.users;
 //	}
-//
+
 //	public void setUsers(List<User> users) {
 //		this.users = users;
 //	}

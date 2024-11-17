@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import co.edu.ue.entity.Person;
 import co.edu.ue.entity.User;
 import co.edu.ue.service.IPersonService;
 import co.edu.ue.service.IUserService;
@@ -39,8 +39,16 @@ public class UserController {
 	
 	@PostMapping(value="user", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<User>> postUser(@RequestBody User user){
-		personService.addPerson(user.getPerson());
-		return new ResponseEntity<List<User>>(userService.addUser(user), HttpStatus.OK);
+		 Person person = user.getPerson();
+		    personService.addPerson(person);
+		    
+	
+		    Person lastPerson = personService.findByIdPerson(person.getPerId());
+		    user.setPerson(lastPerson); 
+		    
+
+		    userService.addUser(user);
+	return new ResponseEntity<List<User>>(userService.listAllUser(), HttpStatus.OK);
 	}
 	
 	
