@@ -1,11 +1,19 @@
 package co.edu.ue.security;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -14,42 +22,106 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 	
+	AuthenticationManager auth;
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
+	    }
+	
+	@Bean	
+	public AuthenticationManager authManager(AuthenticationConfiguration conf) {
+		try {
+			
+			auth= conf.getAuthenticationManager();
+		} catch (Exception e) {
+			System.out.println(""+e.getMessage());
+			e.printStackTrace();
+		}
+		return auth;
+	}
+	
+	@Bean
+	public JdbcUserDetailsManager usersDetailsJdbc() {
+		DriverManagerDataSource ds=new DriverManagerDataSource();
+		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		ds.setUrl("jdbc:mysql://localhost:3306/reflectly");
+		ds.setUsername("root");
+		ds.setPassword("root");
+		
+		JdbcUserDetailsManager jdbcDetails=new JdbcUserDetailsManager(ds);
+		
+		  jdbcDetails.setUsersByUsernameQuery(
+		            "SELECT use_mail, use_password, use_status FROM users WHERE use_mail = ? AND use_status = 1"
+		        );
+			
+		 jdbcDetails.setAuthoritiesByUsernameQuery(
+			        "SELECT u.use_mail, r.rol_name " +
+			        "FROM user_roles ur " +
+			        "JOIN users u ON ur.use_id = u.use_id " +
+			        "JOIN roles r ON ur.rol_id = r.rol_id " +
+			        "WHERE u.use_mail = ?"
+			    );
+
+	
+		printUsers(ds);	
+		return jdbcDetails;
+	}
+	
+	
+	private void printUsers(DriverManagerDataSource ds) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(ds);
+ 
+        // Imprimir usuarios
+        List<String> users = jdbcTemplate.query("SELECT use_mail FROM users", (rs, rowNum) -> rs.getString("use_mail"));
+        System.out.println("Usuarios en la base de datos: " + users);
+ 
+        // Imprimir roles (asumiendo que deseas imprimir todos los roles)
+        List<String> roles = jdbcTemplate.query("SELECT rol_name FROM roles", (rs, rowNum) -> rs.getString("rol_name"));
+        System.out.println("Roles en la base de datos: " + roles);
+        
+        
+    }
+
+
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
     
 
-		try {
+
 		http.csrf(cus->cus.disable())
 		.authorizeHttpRequests(aut->
-			aut.requestMatchers(HttpMethod.GET,"/users").authenticated()			
-			.requestMatchers(HttpMethod.GET,"/user").authenticated()	
-			.requestMatchers(HttpMethod.POST,"/user").permitAll()	
+			aut.requestMatchers(HttpMethod.GET,"/users").hasAnyRole("ADMIN","USER")			
+			.requestMatchers(HttpMethod.GET,"/user").hasAnyRole("ADMIN","USER")	
+			.requestMatchers(HttpMethod.POST,"/register").permitAll()
+			.requestMatchers(HttpMethod.POST,"/login").permitAll()
 			.requestMatchers(HttpMethod.GET,"/persons").permitAll()
-			.requestMatchers(HttpMethod.GET,"/categories").permitAll()
-			.requestMatchers(HttpMethod.GET,"/category").permitAll()
-			.requestMatchers(HttpMethod.POST,"/category").permitAll()
-			.requestMatchers(HttpMethod.PUT,"/category").permitAll()
-			.requestMatchers(HttpMethod.GET,"/emotional/states").permitAll()
-			.requestMatchers(HttpMethod.GET,"/emotional/state").permitAll()
-			.requestMatchers(HttpMethod.POST,"/emotional/state").permitAll()
-			.requestMatchers(HttpMethod.PUT,"/emotional/state").permitAll()
-			.requestMatchers(HttpMethod.GET,"/entries").permitAll()
+			.requestMatchers(HttpMethod.GET,"/categories").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/category").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/category").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.PUT,"/category").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/emotional/states").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/emotional/state").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/emotional/state").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.PUT,"/emotional/state").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/entries").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET,"/entry").permitAll()
-			.requestMatchers(HttpMethod.POST,"/entry").permitAll()
-			.requestMatchers(HttpMethod.PUT,"/entry").permitAll()
-			.requestMatchers(HttpMethod.GET,"/images").permitAll()
-			.requestMatchers(HttpMethod.GET,"/image").permitAll()
-			.requestMatchers(HttpMethod.POST,"/image").permitAll()
-			.requestMatchers(HttpMethod.PUT,"/image").permitAll()
-			.requestMatchers(HttpMethod.GET,"/collaborators").permitAll()
-			.requestMatchers(HttpMethod.GET,"/collaborator").permitAll()
-			.requestMatchers(HttpMethod.POST,"/collaborator").permitAll()
-			.requestMatchers(HttpMethod.PUT,"/collaborator").permitAll()
-			.requestMatchers(HttpMethod.GET,"/Emotional/Logs").permitAll()
-			.requestMatchers(HttpMethod.GET,"/Emotional/Logs").permitAll()
-			.requestMatchers(HttpMethod.POST,"/Emotiona/lLogs").permitAll()
-			.requestMatchers(HttpMethod.PUT,"/Emotional/Logs").permitAll()
+			.requestMatchers(HttpMethod.POST,"/entry").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.PUT,"/entry").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/images").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/image").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/image").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.PUT,"/image").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/collaborators").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/collaborator").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/collaborator").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.PUT,"/collaborator").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/Emotional/Logs").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/Emotional/Logs").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/Emotiona/lLogs").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.PUT,"/Emotional/Logs").hasAnyRole("ADMIN","USER")
 			.requestMatchers(
 	                "/swagger-ui/**",
 	                "/v3/api-docs/**",
@@ -59,11 +131,7 @@ public class SecurityConfig {
 	            .anyRequest().authenticated()
 			
 			
-			).httpBasic(Customizer.withDefaults());
-		
-		}catch (Exception e) {
-				e.printStackTrace();
-				}
+			).addFilter(new AuthorizationFilterJWT(auth));
 		return http.build();	
 	}
 }
