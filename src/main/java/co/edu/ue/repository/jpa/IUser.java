@@ -6,5 +6,5 @@ import co.edu.ue.entity.User;
 
 public interface IUser extends JpaRepository<User, Integer> {
 
-	User findByUseMail(String useMail);
+	User findByuseMail(String useMail);
 }

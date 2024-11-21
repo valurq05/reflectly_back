@@ -1,12 +1,15 @@
 package co.edu.ue.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +24,8 @@ import co.edu.ue.entity.UserRole;
 import co.edu.ue.service.IPersonService;
 import co.edu.ue.service.IUserRoleService;
 import co.edu.ue.service.IUserService;
+import co.edu.ue.validator.UserValidator;
+
 
 @RestController
 @CrossOrigin("*")
@@ -34,6 +39,8 @@ public class UserController {
 	BCryptPasswordEncoder passwordEncoder;
 	@Autowired
 	IUserRoleService userRoleService;
+	@Autowired
+	UserValidator userValidator;
 	
 	
 	@GetMapping(value="users", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -44,10 +51,26 @@ public class UserController {
 	public ResponseEntity<User> getUser(@RequestParam int id) {
 		return new ResponseEntity<User>(userService.findByIdUser(id), HttpStatus.OK);
 	}
+	@GetMapping(value="user/mail", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> getUserByMail(@RequestParam String mail) {
+		return new ResponseEntity<User>(userService.findByMailUser(mail), HttpStatus.OK);
+	}
 	
 	@PostMapping(value="register", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<User>> postUser(@RequestBody User user){
-		 Person person = user.getPerson();
+	public ResponseEntity<?> postUser(@RequestBody User user, BindingResult result){
+		userValidator.validate(user, result);
+		
+		if(result.hasErrors()){
+			
+			Map<String, String> errors = result.getFieldErrors().stream()
+                    .collect(Collectors.toMap(
+                            error -> error.getField(), 
+                            error -> error.getDefaultMessage()
+                    ));
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+		}
+		
+			Person person = user.getPerson();
 		    personService.addPerson(person);
 		    
 	

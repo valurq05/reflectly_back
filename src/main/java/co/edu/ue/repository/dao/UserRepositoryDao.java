@@ -33,14 +33,14 @@ public class UserRepositoryDao implements IUserRepositoryDao{
 
 	@Override
 	public List<User> listUser() {
-		// TODO Auto-generated method stub
+	;
 		return userJPA.findAll();
 	}
 
 	@Override
 	public User findMailUser(String mail) {
 		// TODO Auto-generated method stub
-		return userJPA.findByUseMail(mail);
+		return userJPA.findByuseMail(mail);
 	}
 
 }
