@@ -19,9 +19,11 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.ue.entity.LogInRequest;
 import co.edu.ue.entity.User;
 import co.edu.ue.security.SecurityConfig;
 import co.edu.ue.service.IUserService;
@@ -48,9 +50,12 @@ public class AuthController {
 		
 	}
 	@PostMapping(value = "login", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> login(@RequestParam("user") String user,
-	                                     @RequestParam("pwd") String pwd) {
+	public ResponseEntity<?> login(@RequestBody LogInRequest logInInfo) {
 		
+		String user = logInInfo.getUser();
+	    String pwd = logInInfo.getPwd();
+		System.out.println(user);
+		System.out.println(pwd);
 		User validate = new User();
 		validate.setUseMail(user);
 		validate.setUsePassword(pwd);
