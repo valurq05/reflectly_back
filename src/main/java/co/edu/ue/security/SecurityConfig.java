@@ -120,8 +120,12 @@ public class SecurityConfig {
 			.requestMatchers(HttpMethod.PUT,"/collaborator").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET,"/Emotional/Logs").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET,"/Emotional/Logs").hasAnyRole("ADMIN","USER")
-			.requestMatchers(HttpMethod.POST,"/Emotiona/lLogs").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/Emotiona/Logs").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.PUT,"/Emotional/Logs").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/categories/entries").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/categories/entry").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/categories/entry").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.PUT,"/categories/entry").hasAnyRole("ADMIN","USER")
 			.requestMatchers(
 	                "/swagger-ui/**",
 	                "/v3/api-docs/**",

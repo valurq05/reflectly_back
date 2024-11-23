@@ -30,6 +30,7 @@ import co.edu.ue.service.IUserService;
 import co.edu.ue.validator.UserValidator;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.swagger.v3.oas.annotations.Operation;
 
 import static co.edu.ue.utils.Tools.*;
 
@@ -50,53 +51,54 @@ public class AuthController {
 		
 	}
 	@PostMapping(value = "login", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Operation(
+	    summary = "Inicio de sesión",
+	    description = "Permite a los usuarios autenticarse proporcionando su correo electrónico y contraseña.",
+	    tags = {"Usuarios"}
+	)
 	public ResponseEntity<?> login(@RequestBody LogInRequest logInInfo) {
-		
-		String user = logInInfo.getUser();
+
+	    String user = logInInfo.getUser();
 	    String pwd = logInInfo.getPwd();
-		System.out.println(user);
-		System.out.println(pwd);
-		User validate = new User();
-		validate.setUseMail(user);
-		validate.setUsePassword(pwd);
-		
-		BeanPropertyBindingResult result = new BeanPropertyBindingResult(validate, "user");
-		
-		userValidator.validateLogIn(validate, result);
-		
-		
-		
-		if (result.hasErrors()) {
-       
-            Map<String, String> validationErrors = result.getFieldErrors().stream()
-                    .collect(Collectors.toMap(
-                            error -> error.getField(),
-                            error -> error.getDefaultMessage()
-                    ));
-            return new ResponseEntity<>(validationErrors, HttpStatus.BAD_REQUEST);
-        }
+	    System.out.println(user);
+	    System.out.println(pwd);
+	    User validate = new User();
+	    validate.setUseMail(user);
+	    validate.setUsePassword(pwd);
+
+	    BeanPropertyBindingResult result = new BeanPropertyBindingResult(validate, "user");
+
+	    userValidator.validateLogIn(validate, result);
+
+	    if (result.hasErrors()) {
+	        Map<String, String> validationErrors = result.getFieldErrors().stream()
+	                .collect(Collectors.toMap(
+	                        error -> error.getField(),
+	                        error -> error.getDefaultMessage()
+	                ));
+	        return new ResponseEntity<>(validationErrors, HttpStatus.BAD_REQUEST);
+	    }
 	    try {
-	    	
 	        Authentication authentication = authManager.authenticate(
 	                new UsernamePasswordAuthenticationToken(user, pwd));
-	        System.out.println("COntroller Usuario autenticado: " + authentication.getName());
-	        System.out.println("COntroller Autoridades: " + authentication.getAuthorities());
-	        
+	        System.out.println("Controller Usuario autenticado: " + authentication.getName());
+	        System.out.println("Controller Autoridades: " + authentication.getAuthorities());
+
 	        String token = getToken(authentication);
-	        
+
 	        User userLog = userService.findByMailUser(authentication.getName());
-	       
+
 	        Map<String, Object> response = new HashMap<String, Object>();
 	        response.put("Token", token);
 	        response.put("User", userLog);
-	        
+
 	        return new ResponseEntity<>(response, HttpStatus.OK);
 	    } catch (AuthenticationException ex) {
 	        ex.printStackTrace();
-	        return new ResponseEntity<>("Error de autenticación: " + ex.getMessage(),HttpStatus.UNAUTHORIZED);
+	        return new ResponseEntity<>("Error de autenticación: " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
 	    }
 	}
-	
+
 	private String getToken(Authentication authentication) {
 		// Asegúrate de que estás obteniendo las autoridades correctas
 	    List<String> authorities = authentication.getAuthorities().stream()
