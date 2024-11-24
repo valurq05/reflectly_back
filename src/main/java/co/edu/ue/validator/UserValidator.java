@@ -2,7 +2,9 @@ package co.edu.ue.validator;
 
 import co.edu.ue.entity.Person;
 import co.edu.ue.entity.User;
+import co.edu.ue.service.IUserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -19,6 +21,8 @@ public class UserValidator implements Validator{
     private static final String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%,._;:*#?&])[A-Za-z\\d@$!%.,;:_*#?&]{8,20}$";
     private static final String NAMES_LASTNAMES_REGEX = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ s]{2,30}+$";
 
+    @Autowired
+    IUserService userService;
     @Override
     public boolean supports(Class<?> clazz) {
         return User.class.equals(clazz);
@@ -33,6 +37,8 @@ public class UserValidator implements Validator{
             errors.rejectValue("useMail", "Email vacío", "El correo electrónico no puede estar vacío");
         } else if (!Pattern.matches(EMAIL_REGEX, user.getUseMail())) {
             errors.rejectValue("useMail", "Email inválido", "El correo electrónico no tiene un formato válido");
+        } else if(userService.existByMailUser(user.getUseMail())) {
+        	errors.rejectValue("useMail", "Email duplicado", "El correo electrónico ya está registrado");
         }
 
       

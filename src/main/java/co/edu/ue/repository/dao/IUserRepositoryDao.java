@@ -11,4 +11,5 @@ public interface IUserRepositoryDao {
 	User findIdUser(int id);
 	List<User> listUser();
 	User findMailUser(String mail);
+	Boolean existMailUser(String mail);
 }

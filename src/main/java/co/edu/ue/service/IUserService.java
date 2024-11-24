@@ -11,4 +11,5 @@ public interface IUserService {
 	User findByIdUser(int id);
 	List<User> listAllUser();
 	User findByMailUser(String mail);
+	Boolean existByMailUser(String mail);
 }

@@ -1,6 +1,8 @@
 package co.edu.ue.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,8 +33,11 @@ public class EntryController {
         description = "Devuelve una lista con todas las entradas registradas en el sistema.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<List<Entry>> getAllEntries() {
-        return new ResponseEntity<List<Entry>>(entryService.listAllEntry(), HttpStatus.OK);
+    public ResponseEntity<?> getAllEntries() {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", entryService.listAllEntry());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "entry", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,8 +46,11 @@ public class EntryController {
         description = "Devuelve la información de una entrada específica a partir de su ID.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<Entry> getEntry(@RequestParam int id) {
-        return new ResponseEntity<Entry>(entryService.findByIdEntry(id), HttpStatus.OK);
+    public ResponseEntity<?> getEntry(@RequestParam int id) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", entryService.findByIdEntry(id));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping(value = "entry", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,8 +59,11 @@ public class EntryController {
         description = "Permite registrar una nueva entrada en el sistema proporcionando la información correspondiente.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<List<Entry>> postEntry(@RequestBody Entry entry) {
-        return new ResponseEntity<List<Entry>>(entryService.addEntry(entry), HttpStatus.OK);
+    public ResponseEntity<?> postEntry(@RequestBody Entry entry) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", entryService.addEntry(entry));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping(value = "entry", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,7 +72,10 @@ public class EntryController {
         description = "Actualiza la información de una entrada existente en el sistema.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<Entry> putEntry(@RequestBody Entry entry) {
-        return new ResponseEntity<Entry>(entryService.upEntry(entry), HttpStatus.OK);
+    public ResponseEntity<?> putEntry(@RequestBody Entry entry) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", entryService.upEntry(entry));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

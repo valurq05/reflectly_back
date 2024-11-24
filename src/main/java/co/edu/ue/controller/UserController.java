@@ -1,5 +1,6 @@
 package co.edu.ue.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -47,8 +48,11 @@ public class UserController {
         description = "Devuelve una lista con todos los usuarios registrados en el sistema.",
         tags = {"Usuarios"}
     )
-    public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<List<User>>(userService.listAllUser(), HttpStatus.OK);
+    public ResponseEntity<?> getAllUsers() {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Data", userService.listAllUser());
+        response.put("Status", true);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "user", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,8 +61,11 @@ public class UserController {
         description = "Devuelve un usuario específico basado en su identificador único (ID).",
         tags = {"Usuarios"}
     )
-    public ResponseEntity<User> getUser(@RequestParam int id) {
-        return new ResponseEntity<User>(userService.findByIdUser(id), HttpStatus.OK);
+    public ResponseEntity<?> getUser(@RequestParam int id) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Data", userService.findByIdUser(id));
+        response.put("Status", true);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "user/mail", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,8 +74,12 @@ public class UserController {
         description = "Devuelve un usuario específico basado en su correo electrónico.",
         tags = {"Usuarios"}
     )
-    public ResponseEntity<User> getUserByMail(@RequestParam String mail) {
-        return new ResponseEntity<User>(userService.findByMailUser(mail), HttpStatus.OK);
+    public ResponseEntity<?> getUserByMail(@RequestParam String mail) {
+    	
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Data", userService.findByMailUser(mail));
+        response.put("Status", true);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping(value = "register", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -86,7 +97,10 @@ public class UserController {
                     error -> error.getField(),
                     error -> error.getDefaultMessage()
                 ));
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+            Map<String, Object> response = new HashMap<>();
+            response.put("Data", errors);
+            response.put("Status", false);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         Person person = user.getPerson();
@@ -102,10 +116,12 @@ public class UserController {
         System.out.println(lastUser);
         UserRole newUserRole = new UserRole();
         newUserRole.setUseId(lastUser.getUseId());
-        newUserRole.setRolId(1);
-
+        newUserRole.setRolId(2);
         userRoleService.addUserRole(newUserRole);
 
-        return new ResponseEntity<List<User>>(userService.listAllUser(), HttpStatus.OK);
+        Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", lastUser);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

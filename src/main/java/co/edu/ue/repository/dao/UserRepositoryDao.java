@@ -43,4 +43,11 @@ public class UserRepositoryDao implements IUserRepositoryDao{
 		return userJPA.findByuseMail(mail);
 	}
 
+	@Override
+	public Boolean existMailUser(String mail) {
+		
+		
+		return userJPA.existsByuseMail(mail);
+	}
+
 }

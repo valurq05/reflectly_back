@@ -1,6 +1,8 @@
 package co.edu.ue.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +31,11 @@ public class CollaboratorController {
         description = "Devuelve una lista de todos los colaboradores registrados.",
         tags = {"Colaboradores"}
     )
-    public ResponseEntity<List<Collaborator>> getAllCollaborators() {
-        return new ResponseEntity<List<Collaborator>>(collaboratorService.listAllCollaborators(), HttpStatus.OK);
+    public ResponseEntity<?> getAllCollaborators() {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", collaboratorService.listAllCollaborators());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "collaborator", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,8 +44,11 @@ public class CollaboratorController {
         description = "Devuelve la información de un colaborador específico a partir de su ID.",
         tags = {"Colaboradores"}
     )
-    public ResponseEntity<Collaborator> getCollaborator(@RequestParam int id) {
-        return new ResponseEntity<Collaborator>(collaboratorService.findByIdCollaborator(id), HttpStatus.OK);
+    public ResponseEntity<?> getCollaborator(@RequestParam int id) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", collaboratorService.findByIdCollaborator(id));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping(value = "collaborator", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,8 +57,11 @@ public class CollaboratorController {
         description = "Permite registrar un colaborador proporcionando su información.",
         tags = {"Colaboradores"}
     )
-    public ResponseEntity<List<Collaborator>> postCollaborator(@RequestBody Collaborator collaborator) {
-        return new ResponseEntity<List<Collaborator>>(collaboratorService.addCollaborator(collaborator), HttpStatus.OK);
+    public ResponseEntity<?> postCollaborator(@RequestBody Collaborator collaborator) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", collaboratorService.addCollaborator(collaborator));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping(value = "collaborator", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -59,7 +70,10 @@ public class CollaboratorController {
         description = "Actualiza la información de un colaborador existente.",
         tags = {"Colaboradores"}
     )
-    public ResponseEntity<Collaborator> putCollaborator(@RequestBody Collaborator collaborator) {
-        return new ResponseEntity<Collaborator>(collaboratorService.upCollaborator(collaborator), HttpStatus.OK);
+    public ResponseEntity<?> putCollaborator(@RequestBody Collaborator collaborator) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", collaboratorService.upCollaborator(collaborator));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

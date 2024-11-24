@@ -1,6 +1,8 @@
 package co.edu.ue.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,8 +33,11 @@ public class EmotionalStateController {
         description = "Devuelve una lista de todos los estados emocionales disponibles para su análisis.",
         tags = {"Análisis de Estado de Ánimo"}
     )
-    public ResponseEntity<List<EmotionalState>> getAllEmotionalStates() {
-        return new ResponseEntity<List<EmotionalState>>(emoStateService.listAllEmotionalState(), HttpStatus.OK);
+    public ResponseEntity<?> getAllEmotionalStates() {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", emoStateService.listAllEmotionalState());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "emotional/state", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,8 +46,11 @@ public class EmotionalStateController {
         description = "Devuelve los detalles de un estado emocional específico identificado por su ID.",
         tags = {"Análisis de Estado de Ánimo"}
     )
-    public ResponseEntity<EmotionalState> getEmotionalState(@RequestParam int id) {
-        return new ResponseEntity<EmotionalState>(emoStateService.findByIdEmotionalState(id), HttpStatus.OK);
+    public ResponseEntity<?> getEmotionalState(@RequestParam int id) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", emoStateService.findByIdEmotionalState(id));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping(value = "emotional/state", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,8 +59,11 @@ public class EmotionalStateController {
         description = "Permite registrar un nuevo estado emocional en el sistema para ser utilizado en futuros análisis.",
         tags = {"Análisis de Estado de Ánimo"}
     )
-    public ResponseEntity<List<EmotionalState>> postEmotionalState(@RequestBody EmotionalState emotionalState) {
-        return new ResponseEntity<List<EmotionalState>>(emoStateService.addEmotionalState(emotionalState), HttpStatus.OK);
+    public ResponseEntity<?> postEmotionalState(@RequestBody EmotionalState emotionalState) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", emoStateService.addEmotionalState(emotionalState));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping(value = "emotional/state", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,7 +72,10 @@ public class EmotionalStateController {
         description = "Permite modificar los detalles de un estado emocional existente.",
         tags = {"Análisis de Estado de Ánimo"}
     )
-    public ResponseEntity<EmotionalState> putEmotionalState(@RequestBody EmotionalState emotionalState) {
-        return new ResponseEntity<EmotionalState>(emoStateService.upEmotionalState(emotionalState), HttpStatus.OK);
+    public ResponseEntity<?> putEmotionalState(@RequestBody EmotionalState emotionalState) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", emoStateService.upEmotionalState(emotionalState));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

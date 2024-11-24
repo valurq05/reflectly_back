@@ -1,6 +1,8 @@
 package co.edu.ue.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,8 +32,11 @@ public class CategoriesEntryController {
         description = "Devuelve una lista de todas las categorías relacionadas con una o varias entradas de diario.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<List<CategoriesEntry>> getAllCategories() {
-        return new ResponseEntity<List<CategoriesEntry>>(categoriesEntryService.listAllCategoriesEntry(), HttpStatus.OK);
+    public ResponseEntity<?> getAllCategories() {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", categoriesEntryService.listAllCategoriesEntry());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "Categories/entry", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,8 +45,11 @@ public class CategoriesEntryController {
         description = "Devuelve la información de una categoría específica asociada con una entrada de diario, a partir de su ID.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<CategoriesEntry> getCategoriesEntry(@RequestParam int id) {
-        return new ResponseEntity<CategoriesEntry>(categoriesEntryService.findByIdCategoriesEntry(id), HttpStatus.OK);
+    public ResponseEntity<?> getCategoriesEntry(@RequestParam int id) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", categoriesEntryService.findByIdCategoriesEntry(id));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping(value = "Categories/entry", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -50,8 +58,11 @@ public class CategoriesEntryController {
         description = "Permite añadir una nueva categoría a entradas de diario para clasificarlas.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<List<CategoriesEntry>> postCategoriesEntry(@RequestBody CategoriesEntry CategoriesEntry) {
-        return new ResponseEntity<List<CategoriesEntry>>(categoriesEntryService.addCategoriesEntry(CategoriesEntry), HttpStatus.OK);
+    public ResponseEntity<?> postCategoriesEntry(@RequestBody CategoriesEntry CategoriesEntry) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", categoriesEntryService.addCategoriesEntry(CategoriesEntry));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping(value = "Categories/entry", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -60,7 +71,10 @@ public class CategoriesEntryController {
         description = "Actualiza la asociación de una categoria con la entrada de diario.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<CategoriesEntry> putCategoriesEntry(@RequestBody CategoriesEntry CategoriesEntry) {
-        return new ResponseEntity<CategoriesEntry>(categoriesEntryService.upCategoriesEntry(CategoriesEntry), HttpStatus.OK);
+    public ResponseEntity<?> putCategoriesEntry(@RequestBody CategoriesEntry CategoriesEntry) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", categoriesEntryService.upCategoriesEntry(CategoriesEntry));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

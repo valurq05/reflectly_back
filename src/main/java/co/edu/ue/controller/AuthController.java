@@ -76,7 +76,10 @@ public class AuthController {
 	                        error -> error.getField(),
 	                        error -> error.getDefaultMessage()
 	                ));
-	        return new ResponseEntity<>(validationErrors, HttpStatus.BAD_REQUEST);
+	        Map<String, Object> response = new HashMap<>();
+	        response.put("Status", false);
+	        response.put("Data", validationErrors);
+	        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	    }
 	    try {
 	        Authentication authentication = authManager.authenticate(
@@ -90,12 +93,16 @@ public class AuthController {
 
 	        Map<String, Object> response = new HashMap<String, Object>();
 	        response.put("Token", token);
-	        response.put("User", userLog);
+	        response.put("Data", userLog);
+	        response.put("Status", true);
 
 	        return new ResponseEntity<>(response, HttpStatus.OK);
 	    } catch (AuthenticationException ex) {
 	        ex.printStackTrace();
-	        return new ResponseEntity<>("Error de autenticación: " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
+	        Map<String, Object> response = new HashMap<String, Object>();
+	        response.put("Status", false);
+	        response.put("Data", "Error de autenticación");
+	        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 	    }
 	}
 

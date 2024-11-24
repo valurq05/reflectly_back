@@ -1,6 +1,8 @@
 package co.edu.ue.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,8 +33,11 @@ public class EmotionalLogController {
         description = "Devuelve una lista de todos los registros emocionales asociados con el análisis de estado de ánimo.",
         tags = {"Análisis de Estado de Ánimo"}
     )
-    public ResponseEntity<List<EmotionalLog>> getAllEmotionalLogs() {
-        return new ResponseEntity<List<EmotionalLog>>(emotionalLogService.listAllEmotionalLogs(), HttpStatus.OK);
+    public ResponseEntity<?> getAllEmotionalLogs() {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", emotionalLogService.listAllEmotionalLogs());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "Emotional/Log", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,8 +46,11 @@ public class EmotionalLogController {
         description = "Devuelve un registro emocional específico a partir de su ID, para análisis detallado del estado de ánimo.",
         tags = {"Análisis de Estado de Ánimo"}
     )
-    public ResponseEntity<EmotionalLog> getEmotionalLog(@RequestParam int id) {
-        return new ResponseEntity<EmotionalLog>(emotionalLogService.findByIdEmotionalLog(id), HttpStatus.OK);
+    public ResponseEntity<?> getEmotionalLog(@RequestParam int id) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", emotionalLogService.findByIdEmotionalLog(id));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping(value = "Emotional/Log", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,8 +59,11 @@ public class EmotionalLogController {
         description = "Permite registrar un nuevo estado emocional en el sistema para su análisis.",
         tags = {"Análisis de Estado de Ánimo"}
     )
-    public ResponseEntity<List<EmotionalLog>> postEmotionalLog(@RequestBody EmotionalLog emotionalLog) {
-        return new ResponseEntity<List<EmotionalLog>>(emotionalLogService.addEmotionalLog(emotionalLog), HttpStatus.OK);
+    public ResponseEntity<?> postEmotionalLog(@RequestBody EmotionalLog emotionalLog) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", emotionalLogService.addEmotionalLog(emotionalLog));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping(value = "Emotional/Log", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,7 +72,10 @@ public class EmotionalLogController {
         description = "Permite actualizar un registro emocional existente, modificando detalles del estado de ánimo registrado.",
         tags = {"Análisis de Estado de Ánimo"}
     )
-    public ResponseEntity<EmotionalLog> putEmotionalLog(@RequestBody EmotionalLog emotionalLog) {
-        return new ResponseEntity<EmotionalLog>(emotionalLogService.upEmotionalLog(emotionalLog), HttpStatus.OK);
+    public ResponseEntity<?> putEmotionalLog(@RequestBody EmotionalLog emotionalLog) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", emotionalLogService.upEmotionalLog(emotionalLog));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

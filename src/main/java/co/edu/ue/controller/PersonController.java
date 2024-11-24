@@ -1,6 +1,8 @@
 package co.edu.ue.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +29,12 @@ public class PersonController {
 	    description = "Devuelve una lista con toda la información de las personas registradas en el sistema.",
 	    tags = {"Usuarios"}
 	)
-	public ResponseEntity<List<Person>> getAllPersons() {
-	    return new ResponseEntity<List<Person>>(personService.listAllPersons(), HttpStatus.OK);
+	public ResponseEntity<?> getAllPersons() {
+		
+		Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", personService.listAllPersons());
+	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@GetMapping(value="person", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -37,8 +43,12 @@ public class PersonController {
 	    description = "Devuelve la información de una persona específica a partir de su ID.",
 	    tags = {"Usuarios"}
 	)
-	public ResponseEntity<Person> getPerson(@RequestParam int id) {
-	    return new ResponseEntity<Person>(personService.findByIdPerson(id), HttpStatus.OK);
+	public ResponseEntity<?> getPerson(@RequestParam int id) {
+		
+		Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", personService.findByIdPerson(id));
+        return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 

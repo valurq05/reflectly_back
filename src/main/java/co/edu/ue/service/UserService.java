@@ -42,4 +42,10 @@ public class UserService implements IUserService{
 		return userRepository.findMailUser(mail);
 	}
 
+	@Override
+	public Boolean existByMailUser(String mail) {
+		// TODO Auto-generated method stub
+		return userRepository.existMailUser(mail);
+	}
+
 }
