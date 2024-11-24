@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 
  
@@ -47,7 +49,7 @@ public class SecurityConfig {
 		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		ds.setUrl("jdbc:mysql://localhost:3306/reflectly");
 		ds.setUsername("root");
-		ds.setPassword("root");
+		ds.setPassword("");
 		
 		JdbcUserDetailsManager jdbcDetails=new JdbcUserDetailsManager(ds);
 		
@@ -82,6 +84,21 @@ public class SecurityConfig {
         
         
     }
+	
+
+    // Configuración CORS
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://localhost:4200"); // Permitir solicitudes desde el frontend
+        config.addAllowedHeader("*"); // Permitir todos los headers
+        config.addAllowedMethod("*"); // Permitir todos los métodos (GET, POST, etc.)
+        config.setAllowCredentials(true); // Permitir cookies o credenciales si es necesario
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config); // Aplica configuración CORS a todas las rutas
+        return source;
+    }
 
 
 
@@ -91,7 +108,9 @@ public class SecurityConfig {
     
 
 
-		http.csrf(cus->cus.disable())
+		http
+		.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+		.csrf(cus->cus.disable())
 		.authorizeHttpRequests(aut->
 			aut.requestMatchers(HttpMethod.GET,"/users").hasAnyRole("ADMIN","USER")			
 			.requestMatchers(HttpMethod.GET,"/user").hasAnyRole("ADMIN","USER")	
