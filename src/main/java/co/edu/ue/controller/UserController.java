@@ -100,7 +100,7 @@ public class UserController {
             Map<String, Object> response = new HashMap<>();
             response.put("Data", errors);
             response.put("Status", false);
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
         Person person = user.getPerson();

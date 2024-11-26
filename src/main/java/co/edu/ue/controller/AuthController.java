@@ -79,7 +79,7 @@ public class AuthController {
 	        Map<String, Object> response = new HashMap<>();
 	        response.put("Status", false);
 	        response.put("Data", validationErrors);
-	        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	        return new ResponseEntity<>(response, HttpStatus.OK);
 	    }
 	    try {
 	        Authentication authentication = authManager.authenticate(
@@ -102,7 +102,7 @@ public class AuthController {
 	        Map<String, Object> response = new HashMap<String, Object>();
 	        response.put("Status", false);
 	        response.put("Data", "Error de autenticación");
-	        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+	        return new ResponseEntity<>(response, HttpStatus.OK);
 	    }
 	}
 

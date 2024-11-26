@@ -1,5 +1,7 @@
 package co.edu.ue.controller;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,32 @@ public class DailyLogController {
 			Map<String, Object> response = new HashMap<>();
 	        response.put("Status", true);
 	        response.put("Data", DailyLogService.listAllDailyLogs());
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		@GetMapping(value = "daily/user/date/logs", produces = MediaType.APPLICATION_JSON_VALUE)
+		@Operation(
+		    summary = "Listar todos los registros diarios de un usuario según el día",
+		    description = "Devuelve una lista de todos los registros diarios de un usuario en un dia especifico disponibles en el sistema.",
+		    tags = {"Análisis de Estado de Ánimo"}
+		)
+		public ResponseEntity<?> getAllDailyLogsByUserAndDate(@RequestParam LocalDate date, @RequestParam int id) {
+			Map<String, Object> response = new HashMap<>();
+	        response.put("Status", true);
+	        response.put("Data", DailyLogService.listAllDailyLogsByDateAndUser(date, id));
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		@GetMapping(value = "daily/user/logs", produces = MediaType.APPLICATION_JSON_VALUE)
+		@Operation(
+		    summary = "Listar todos los registros diarios de un usuario",
+		    description = "Devuelve una lista de todos los registros diarios de un usuario disponibles en el sistema.",
+		    tags = {"Análisis de Estado de Ánimo"}
+		)
+		public ResponseEntity<?> getAllDailyLogsByUserAndDate(@RequestParam int id) {
+			Map<String, Object> response = new HashMap<>();
+	        response.put("Status", true);
+	        response.put("Data", DailyLogService.listAllDailyLogsByUser(id));
 	        return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 
