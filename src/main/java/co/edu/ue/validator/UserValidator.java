@@ -76,10 +76,6 @@ public class UserValidator implements Validator{
             errors.rejectValue("person.perName", "Nombre inválido", "El nombre solo puede contener letras y espacios");
         }
 
-        
-        if (person.getPerPhoto() == null || person.getPerPhoto().isEmpty()) {
-            errors.rejectValue("person.perPhoto", "Foto vacía", "La foto no puede estar vacía");
-        }
     }
     
     public void validateLogIn(Object target, Errors errors) {

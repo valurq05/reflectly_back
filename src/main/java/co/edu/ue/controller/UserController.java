@@ -105,7 +105,8 @@ public class UserController {
 
         Person person = user.getPerson();
         personService.addPerson(person);
-
+        String defaultImagePath = "/images/GdXyg8gWgAAQmW1.jpg";
+        person.setPerPhoto(defaultImagePath);
         Person lastPerson = personService.findByIdPerson(person.getPerId());
         user.setPerson(lastPerson);
 
@@ -118,6 +119,7 @@ public class UserController {
         newUserRole.setUseId(lastUser.getUseId());
         newUserRole.setRolId(2);
         userRoleService.addUserRole(newUserRole);
+        
 
         Map<String, Object> response = new HashMap<>();
         response.put("Status", true);

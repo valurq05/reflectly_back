@@ -17,6 +17,8 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
  
@@ -149,6 +151,8 @@ public class SecurityConfig {
 			.requestMatchers(HttpMethod.GET,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.PUT,"/daily/log").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET, "/images/{filename}").permitAll()
+			
 			.requestMatchers(
 	                "/swagger-ui/**",
 	                "/v3/api-docs/**",
@@ -161,4 +165,6 @@ public class SecurityConfig {
 			).addFilter(new AuthorizationFilterJWT(auth));
 		return http.build();	
 	}
+	
+	
 }
