@@ -118,6 +118,11 @@ public class ImageController {
     
     
     @GetMapping("/images/{filename}")
+    @Operation(
+            summary = "Llamar una imagen",
+            description = "Permite llamar una imagen almacenada en el directorio de archivos del servidor.",
+            tags = {"Entradas de Diario"}
+        )
     public ResponseEntity<Resource> getImage(@PathVariable String filename) {
         try {
             Path filePath = Paths.get(uploadDir).resolve(filename);

@@ -43,15 +43,16 @@ public class DailyLogRepositoryDao implements IDailyLogRepositoryDao{
 	}
 
 	@Override
-	public List<EntryDetailsDTO> listDailyLogsByDateAndUser(LocalDate dayLogDate, int id) {
-		
-		return dailyLogJPA.findDailyLogsByDateAndUserId(dayLogDate, id);
+	public List<EntryDetailsDTO> listDailyLogsByDateOrAndCategory(int userId, LocalDate dayLogDate, Integer categoryid) {
+		return dailyLogJPA.findEntryDetailsByUserAndOptionalDateAndCategory(userId, dayLogDate, categoryid);
 	}
 
 	@Override
-	public List<EntryDetailsDTO> listDailyLogsByUser(int id) {
+	public List<Object[]> listfindCategoriesForEntries(int userId) {
 		// TODO Auto-generated method stub
-		return dailyLogJPA.findDailyLogsByUserId(id);
+		return dailyLogJPA.findCategoriesForEntries(userId);
 	}
+
+
 
 }

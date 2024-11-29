@@ -119,6 +119,7 @@ public class SecurityConfig {
 			.requestMatchers(HttpMethod.POST,"/register").permitAll()
 			.requestMatchers(HttpMethod.POST,"/login").permitAll()
 			.requestMatchers(HttpMethod.GET,"/persons").permitAll()
+			.requestMatchers(HttpMethod.POST,"refresh").permitAll()
 			.requestMatchers(HttpMethod.GET,"/categories").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET,"/category").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/category").hasAnyRole("ADMIN","USER")
@@ -152,7 +153,6 @@ public class SecurityConfig {
 			.requestMatchers(HttpMethod.POST,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.PUT,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET, "/images/{filename}").permitAll()
-			
 			.requestMatchers(
 	                "/swagger-ui/**",
 	                "/v3/api-docs/**",

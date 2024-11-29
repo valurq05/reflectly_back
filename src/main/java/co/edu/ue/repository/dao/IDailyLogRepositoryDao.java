@@ -13,6 +13,6 @@ public interface IDailyLogRepositoryDao {
 	DailyLog updateDailyLog(DailyLog DailyLog);
 	DailyLog findIdDailyLog(int id);
 	List<DailyLog> listDailyLogs();
-	List<EntryDetailsDTO> listDailyLogsByDateAndUser(LocalDate dayLogDate, int id);
-	List<EntryDetailsDTO> listDailyLogsByUser( int id);
+	List<EntryDetailsDTO> listDailyLogsByDateOrAndCategory(int userId,LocalDate dayLogDate, Integer categoryid);
+	List<Object[]>listfindCategoriesForEntries(int userId);
 }

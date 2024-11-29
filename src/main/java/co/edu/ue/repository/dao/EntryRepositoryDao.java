@@ -28,6 +28,7 @@ public class EntryRepositoryDao implements IEntryRepositoryDao{
 	@Override
 	public Entry findIdEntry(int id) {
 		// TODO Auto-generated method stub
+		
 		return entryJPA.findById(id).orElse(null);
 	}
 
@@ -36,5 +37,7 @@ public class EntryRepositoryDao implements IEntryRepositoryDao{
 		// TODO Auto-generated method stub
 		return entryJPA.findAll();
 	}
+
+
 
 }

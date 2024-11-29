@@ -37,4 +37,5 @@ public class EntryService implements IEntryService{
 		return entryDAO.listEntries();
 	}
 
+
 }

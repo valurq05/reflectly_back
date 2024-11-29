@@ -1,8 +1,11 @@
 package co.edu.ue.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,16 +44,31 @@ public class DailyLogService implements IDailyLogService{
 		return dailyLogDAO.listDailyLogs();
 	}
 
-	@Override
-	public List<EntryDetailsDTO> listAllDailyLogsByDateAndUser(LocalDate dayLogDate, int id) {
-		
-		return dailyLogDAO.listDailyLogsByDateAndUser(dayLogDate, id);
-	}
 
 	@Override
-	public List<EntryDetailsDTO> listAllDailyLogsByUser(int id) {
-		// TODO Auto-generated method stub
-		return dailyLogDAO.listDailyLogsByUser(id);
+	public List<EntryDetailsDTO> listAllDailyLogsByDateOrAndCategory(int userId, LocalDate dayLogDate, Integer categoryid) {
+		List<EntryDetailsDTO> entryDetails = dailyLogDAO.listDailyLogsByDateOrAndCategory(userId, dayLogDate, categoryid);
+		
+		List<Object[]> categories = dailyLogDAO.listfindCategoriesForEntries(userId);
+		System.out.println(entryDetails);
+		System.out.println(categories);
+		Map<Integer, EntryDetailsDTO> entryMap = new HashMap<Integer, EntryDetailsDTO>();
+	    for (EntryDetailsDTO entryDetail : entryDetails) {
+	        entryMap.put(entryDetail.getEntId(), entryDetail);
+	    }
+	    
+	    for(Object[] categoryData : categories) {
+	    	int entId = (int)categoryData[2];
+	    	String category = (String)categoryData[1];
+	    
+	    	System.out.println(entId);
+	    	if(entryMap.containsKey(entId)) {
+	    		entryMap.get(entId).addCategory(category);
+	    	}
+	    }
+	    
+	    
+		return new ArrayList<>(entryMap.values());
 	}
 
 }
