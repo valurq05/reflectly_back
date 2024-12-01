@@ -34,4 +34,10 @@ public class CategoryRepositoryDao implements ICategoryRepositoryDao{
 		return categoryJPA.findAll();
 	}
 
+	@Override
+	public Boolean existscatId(int useId) {
+		// TODO Auto-generated method stub
+		return categoryJPA.existsBycatId(useId);
+	}
+
 }

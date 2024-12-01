@@ -152,6 +152,7 @@ public class SecurityConfig {
 			.requestMatchers(HttpMethod.GET,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.PUT,"/daily/log").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/daily/log/allinfo").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET, "/images/{filename}").permitAll()
 			.requestMatchers(
 	                "/swagger-ui/**",

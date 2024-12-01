@@ -11,4 +11,5 @@ public interface ICategoryService {
 	Category upCategory(Category category);
 	Category findByIdCategory(int id);
 	List<Category> listAllCategories();
+	Boolean existsBycatId(int useId);
 }

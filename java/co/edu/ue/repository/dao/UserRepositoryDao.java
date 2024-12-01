@@ -50,4 +50,10 @@ public class UserRepositoryDao implements IUserRepositoryDao{
 		return userJPA.existsByuseMail(mail);
 	}
 
+	@Override
+	public Boolean existIdUser(int id) {
+		// TODO Auto-generated method stub
+		return userJPA.existsByuseId(id);
+	}
+
 }

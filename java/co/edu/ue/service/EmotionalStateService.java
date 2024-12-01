@@ -37,4 +37,10 @@ public class EmotionalStateService implements IEmotionalStateService{
 		return EmoStateDao.listEmotionalState();
 	}
 
+	@Override
+	public Boolean existsByEmoStaId(int useId) {
+		// TODO Auto-generated method stub
+		return EmoStateDao.existsEmoStaId(useId);
+	}
+
 }

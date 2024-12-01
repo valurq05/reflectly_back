@@ -66,7 +66,7 @@ public class DailyLogService implements IDailyLogService{
 	    		entryMap.get(entId).addCategory(category);
 	    	}
 	    }
-	    
+	   
 	    
 		return new ArrayList<>(entryMap.values());
 	}

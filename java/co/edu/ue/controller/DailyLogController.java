@@ -5,11 +5,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +20,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.ue.dto.DailyLogFullInfo;
+import co.edu.ue.entity.Collaborator;
 import co.edu.ue.entity.DailyLog;
+import co.edu.ue.entity.EmotionalLog;
+import co.edu.ue.entity.Entry;
+import co.edu.ue.entity.User;
+import co.edu.ue.repository.jpa.IEmotionalState;
+import co.edu.ue.service.ICategoryService;
+import co.edu.ue.service.ICollaboratorService;
 import co.edu.ue.service.IDailyLogService;
+import co.edu.ue.service.IEmotionalLogService;
+import co.edu.ue.service.IEmotionalStateService;
+import co.edu.ue.service.IEntryService;
+import co.edu.ue.service.IUserService;
+import co.edu.ue.validator.DailyInfoValidator;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
@@ -27,6 +42,20 @@ import io.swagger.v3.oas.annotations.Operation;
 public class DailyLogController {
 		@Autowired
 	    IDailyLogService DailyLogService;
+		@Autowired
+		IEmotionalLogService emoLogService;
+		@Autowired
+		IUserService userService;
+		@Autowired
+		IEmotionalStateService emoStateService;
+		@Autowired
+		IEntryService entryService;
+		@Autowired 
+		ICollaboratorService collaboratorService;
+		@Autowired
+		ICategoryService categoryService;
+		@Autowired 
+		DailyInfoValidator dailyValidator;
 
 		@GetMapping(value = "daily/logs", produces = MediaType.APPLICATION_JSON_VALUE)
 		@Operation(
@@ -49,9 +78,30 @@ public class DailyLogController {
 		    tags = {"Análisis de Estado de Ánimo"}
 		)
 		public ResponseEntity<?> getAllDailyLogsByUserAndDate(@RequestParam(required = false) LocalDate date, @RequestParam(required = false) Integer categoryId, @RequestParam int userId) {
+			
+			
+			Map<String, String> errors = new HashMap<>();
+
+		  
+		    if (date != null && date.isAfter(LocalDate.now())) {
+		        errors.put("date", "La fecha no puede ser mayor a la fecha actual");
+		    }
+
+		
+		    if (categoryId != null && !categoryService.existsBycatId(categoryId)) {
+		        errors.put("categoryId", "La categoría con el ID proporcionado no existe");
+		    }
+		    
+		    if (!errors.isEmpty()) {
+		        Map<String, Object> response = new HashMap<>();
+		        response.put("Status", false);
+		        response.put("Errors", errors);
+		        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		    }
 			Map<String, Object> response = new HashMap<>();
 	        response.put("Status", true);
-	        response.put("Data", DailyLogService.listAllDailyLogsByDateOrAndCategory(userId, date, categoryId));
+	        response.put("Data", DailyLogService.listAllDailyLogsByDateOrAndCategory(userId, date, categoryId).isEmpty()?
+	        		"No hay registros diarios" : DailyLogService.listAllDailyLogsByDateOrAndCategory(userId, date, categoryId));
 	        return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 		
@@ -93,6 +143,61 @@ public class DailyLogController {
 	        response.put("Status", true);
 	        response.put("Data", DailyLogService.upDailyLog(DailyLog));
 	        return new ResponseEntity<>(response, HttpStatus.OK);
+		}
+		
+		@PostMapping(value ="daily/log/allinfo", produces = MediaType.APPLICATION_JSON_VALUE)
+		@Operation(
+			    summary = "Crear un registro diario con toda su información necesaria",
+			    description = "Permite crear un registro diario registrando inmediatamente su registro emocial y su entrada",
+			    tags = {"Análisis de Estado de Ánimo"}
+			)
+		public ResponseEntity<?> postAllDailyLogNecessaryInfo(@RequestBody DailyLogFullInfo fullInfo, BindingResult result){
+			
+			dailyValidator.validate(fullInfo, result);
+			
+			if (result.hasErrors()) {
+	            Map<String, String> errors = result.getFieldErrors().stream()
+	                .collect(Collectors.toMap(
+	                    error -> error.getField(),
+	                    error -> error.getDefaultMessage()
+	                ));
+	            Map<String, Object> response = new HashMap<>();
+	            response.put("Data", errors);
+	            response.put("Status", false);
+	            return new ResponseEntity<>(response, HttpStatus.OK);
+	        }
+			
+			EmotionalLog newEmoLog = new EmotionalLog(); 
+			newEmoLog.setEmoLogDate(new Date());
+			System.out.println(newEmoLog.getEmoLogDate());
+			newEmoLog.setUser(userService.findByIdUser(fullInfo.getUseId()));
+			newEmoLog.setEmotionalState(emoStateService.findByIdEmotionalState(fullInfo.getEmoStaId()));
+			emoLogService.addEmotionalLog(newEmoLog);
+			EmotionalLog lastEmoLog = emoLogService.findByIdEmotionalLog(newEmoLog.getEmoLogId());
+			System.out.println(lastEmoLog.getEmoLogId());
+			Entry newEntry = new Entry();
+			newEntry.setEntDate(new Date());
+			newEntry.setEntText(fullInfo.getEntText());
+			newEntry.setEntTitle(fullInfo.getEntTitle());
+			entryService.addEntry(newEntry);
+			Entry lastEntry = entryService.findByIdEntry(newEntry.getEntId());
+			System.out.println(lastEntry.getEntId());
+			Collaborator newCollaborator = new Collaborator();
+			newCollaborator.setUser(userService.findByIdUser(fullInfo.getUseId()));
+			newCollaborator.setEntry(lastEntry);
+			collaboratorService.addCollaborator(newCollaborator);
+			DailyLog newDailyLog = new DailyLog();
+			newDailyLog.setDayLogDate(new Date());
+			newDailyLog.setEmotionalLog(lastEmoLog);
+			newDailyLog.setEntry(lastEntry);
+			
+			Map<String, Object> response = new HashMap<>();
+	        response.put("Status", true);
+	        response.put("Data", DailyLogService.addDailyLog(newDailyLog));
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+			
+			
+			
 		}
 
 

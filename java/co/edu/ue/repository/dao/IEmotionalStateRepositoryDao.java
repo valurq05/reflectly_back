@@ -11,5 +11,6 @@ public interface IEmotionalStateRepositoryDao{
 	EmotionalState updateEmotionalState(EmotionalState emotionalState);
 	EmotionalState findIdEmotionalState(int id);
 	List<EmotionalState> listEmotionalState();
+	Boolean existsEmoStaId(int useId);
 
 }

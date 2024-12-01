@@ -8,4 +8,5 @@ public interface IUser extends JpaRepository<User, Integer> {
 
 	User findByuseMail(String useMail);	
 	Boolean existsByuseMail(String useMail);
+	Boolean existsByuseId(int useId);
 }

@@ -34,4 +34,10 @@ public class CategoryService implements ICategoryService{
 		return categoryRepository.listCategory();
 	}
 
+	@Override
+	public Boolean existsBycatId(int useId) {
+		// TODO Auto-generated method stub
+		return categoryRepository.existscatId(useId);
+	}
+
 }

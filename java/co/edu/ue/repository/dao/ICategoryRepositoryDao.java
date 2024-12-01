@@ -12,5 +12,7 @@ public interface ICategoryRepositoryDao {
 	Category updateCategory(Category category);
 	Category findIdCategory(int id);
 	List<Category> listCategory();
+	Boolean existscatId(int useId);
+
 
 }

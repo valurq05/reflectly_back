@@ -10,4 +10,6 @@ public interface IEmotionalStateService {
 	EmotionalState upEmotionalState(EmotionalState emotionalState);
 	EmotionalState findByIdEmotionalState(int id);
 	List<EmotionalState> listAllEmotionalState();
+	Boolean existsByEmoStaId(int useId);
+
 }

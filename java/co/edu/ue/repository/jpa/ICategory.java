@@ -6,4 +6,7 @@ import co.edu.ue.entity.Category;
 
 public interface ICategory extends JpaRepository<Category, Integer>{
 
+	Boolean existsBycatId(int useId);
+
+	
 }

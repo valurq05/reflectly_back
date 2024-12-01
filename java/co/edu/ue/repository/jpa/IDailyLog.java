@@ -22,8 +22,8 @@ public interface IDailyLog extends JpaRepository<DailyLog, Integer>{
             "JOIN Collaborator c ON c.entry = en " +
             "JOIN c.user u " +
             "JOIN u.person p " +
-            "JOIN CategoriesEntry ce ON ce.entry = en " + 
-            "JOIN ce.category ca " + 
+            "LEFT JOIN CategoriesEntry ce ON ce.entry = en " + 
+            "LEFT JOIN ce.category ca " + 
             "WHERE u.useId = :userId " +
             "AND (:dayLogDate IS NULL OR dl.dayLogDate = :dayLogDate) " +
             "AND (:categoryId IS NULL OR ce.category.catId = :categoryId) " +

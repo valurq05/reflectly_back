@@ -37,4 +37,10 @@ public class EmotionalStateRepositoryDao implements IEmotionalStateRepositoryDao
 		return emotionalStateJPA.findAll();
 	}
 
+	@Override
+	public Boolean existsEmoStaId(int useId) {
+		// TODO Auto-generated method stub
+		return emotionalStateJPA.existsByemoStaId(useId);
+	}
+
 }
