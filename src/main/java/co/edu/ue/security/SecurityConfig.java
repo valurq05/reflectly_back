@@ -51,7 +51,7 @@ public class SecurityConfig {
 		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		ds.setUrl("jdbc:mysql://localhost:3306/reflectly");
 		ds.setUsername("root");
-		ds.setPassword("root");
+		ds.setPassword("");
 		
 		JdbcUserDetailsManager jdbcDetails=new JdbcUserDetailsManager(ds);
 		

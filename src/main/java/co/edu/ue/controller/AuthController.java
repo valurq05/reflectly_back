@@ -119,6 +119,7 @@ public class AuthController {
 	        
 	        return new ResponseEntity<>(response, headers,HttpStatus.OK);
 	    } catch (AuthenticationException ex) {
+            System.out.println(ex.getMessage());
 	        ex.printStackTrace();
 	        Map<String, Object> response = new HashMap<String, Object>();
 	        response.put("Status", false);

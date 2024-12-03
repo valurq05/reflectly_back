@@ -23,5 +23,4 @@ public class ProyectReflectlyApplication {
 	    boolean matches = encoder.matches(rawPassword, encryptedPassword);
 	    System.out.println("¿Coinciden las contraseñas? " + matches);
 	}
-
 }
