@@ -179,6 +179,7 @@ public class DailyLogController {
 			newEntry.setEntDate(new Date());
 			newEntry.setEntText(fullInfo.getEntText());
 			newEntry.setEntTitle(fullInfo.getEntTitle());
+			newEntry.setEntStatus(true);
 			entryService.addEntry(newEntry);
 			Entry lastEntry = entryService.findByIdEntry(newEntry.getEntId());
 			System.out.println(lastEntry.getEntId());
