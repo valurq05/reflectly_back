@@ -9,5 +9,6 @@ public interface IEntryService {
 	Entry upEntry(Entry entry);
 	Entry findByIdEntry(int id);
 	List<Entry> listAllEntry();
+	void toggleStatByUseEntryId(Integer entryId);
 
 }

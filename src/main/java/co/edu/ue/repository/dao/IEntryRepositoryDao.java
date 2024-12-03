@@ -11,6 +11,6 @@ public interface IEntryRepositoryDao {
 	Entry updateEntry(Entry entry);
 	Entry findIdEntry(int id);
 	List<Entry> listEntries();
-
+	void toggleStatuseEntryId(Integer entryId);
 	
 }

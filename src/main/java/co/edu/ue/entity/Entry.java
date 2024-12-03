@@ -31,7 +31,9 @@ public class Entry implements Serializable {
 
 	@Column(name="ent_title")
 	private String entTitle;
-
+	
+	 @Column(name = "ent_status", nullable = false)
+	    private boolean entStatus;
 //	//bi-directional many-to-one association to CategoriesEntry
 //	@OneToMany(mappedBy="entry")
 //	private List<CategoriesEntry> categoriesEntries;
@@ -81,6 +83,14 @@ public class Entry implements Serializable {
 
 	public void setEntTitle(String entTitle) {
 		this.entTitle = entTitle;
+	}
+	
+	public boolean getEntStatus() {
+		return entStatus;
+	}
+
+	public void setEntStatus(boolean entStatus) {
+		this.entStatus = entStatus;
 	}
 
 //	public List<CategoriesEntry> getCategoriesEntries() {

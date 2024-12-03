@@ -27,6 +27,7 @@ public interface IDailyLog extends JpaRepository<DailyLog, Integer>{
             "WHERE u.useId = :userId " +
             "AND (:dayLogDate IS NULL OR dl.dayLogDate = :dayLogDate) " +
             "AND (:categoryId IS NULL OR ce.category.catId = :categoryId) " +
+            "AND en.entStatus = true "+
             "GROUP BY en.entId, dl.dayLogDate, el.emoLogId, el.emoLogDate, es.emoStaState, " +
             "en.entDate, en.entTitle, en.entText, p.perName, u.useMail")
 List<EntryDetailsDTO> findEntryDetailsByUserAndOptionalDateAndCategory(

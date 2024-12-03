@@ -37,5 +37,12 @@ public class EntryService implements IEntryService{
 		return entryDAO.listEntries();
 	}
 
+	@Override
+	public void toggleStatByUseEntryId(Integer entryId) {
+		
+		entryDAO.toggleStatuseEntryId(entryId);
+		
+	}
+
 
 }

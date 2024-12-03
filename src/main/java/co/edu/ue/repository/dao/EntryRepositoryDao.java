@@ -38,6 +38,12 @@ public class EntryRepositoryDao implements IEntryRepositoryDao{
 		return entryJPA.findAll();
 	}
 
+	@Override
+	public void toggleStatuseEntryId(Integer entryId) {
+			entryJPA.toggleStatusById(entryId);
+		
+	}
+
 
 
 }

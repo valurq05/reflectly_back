@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,5 +53,18 @@ public class PersonController {
         return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+	@PutMapping(value = "person", produces=MediaType.APPLICATION_JSON_VALUE)
+	@Operation(
+		    summary = "Actualizar una persona especifica",
+		    description = "Actualiza la información de una persona específica.",
+		    tags = {"Usuarios"}
+		)
+	public ResponseEntity<?> updatePerson(@RequestBody Person person){
+		
+		Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", personService.upPerson(person));
+	    return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 
 }

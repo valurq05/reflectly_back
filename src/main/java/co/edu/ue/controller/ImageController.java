@@ -30,8 +30,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.edu.ue.entity.Entry;
 import co.edu.ue.entity.Image;
+import co.edu.ue.entity.Person;
+import co.edu.ue.entity.User;
 import co.edu.ue.service.IEntryService;
 import co.edu.ue.service.IImageService;
+import co.edu.ue.service.IPersonService;
+import co.edu.ue.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
@@ -44,6 +48,10 @@ public class ImageController {
     IImageService imageService;
     @Autowired
     IEntryService entryService;
+    @Autowired
+    IUserService userService;
+    @Autowired
+    IPersonService personService;
 
     @GetMapping(value = "images", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
@@ -84,6 +92,35 @@ public class ImageController {
             Map<String, Object> response = new HashMap<>();
 	        response.put("Status", true);
 	        response.put("Data", imageService.addImage(image));
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+        }
+    	
+    	
+        
+    }
+    
+    @PostMapping(value = "user/profile/img", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(
+        summary = "Actualizar con una nueva imagen la imagen de perfil del usuario",
+        description = "Permite actualizar la imagen de perfil de usuario",
+        tags = {"Entradas de Diario"}
+    )
+    public ResponseEntity<?> changeProfileImage(@RequestParam MultipartFile file, @RequestParam int userId) {
+    	
+    	
+    	try {
+    		
+     
+            String filePath = saveImage(file);
+            User user = userService.findByIdUser(userId);
+            Person person = user.getPerson();
+            person.setPerPhoto(filePath);
+            personService.upPerson(person);
+            Map<String, Object> response = new HashMap<>();
+	        response.put("Status", true);
+	        response.put("Data", "Imagen de perfil actualizada correctamente");
 	        return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
