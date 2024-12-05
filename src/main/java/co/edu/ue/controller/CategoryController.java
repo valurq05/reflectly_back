@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ue.entity.Category;
 import co.edu.ue.service.ICategoryService;
+import co.edu.ue.validator.CategoryValidator;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
@@ -26,6 +28,8 @@ public class CategoryController {
 
     @Autowired
     ICategoryService categoryService;
+    @Autowired
+    CategoryValidator categoryValidator;
 
     @GetMapping(value = "categories", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
@@ -59,8 +63,15 @@ public class CategoryController {
         description = "Permite registrar una nueva categoría para clasificar entradas de diario proporcionando su información.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<?> postCategory(@RequestBody Category category) {
-    	Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<?> postCategory(@RequestBody Category category, BindingResult results) {
+        categoryValidator.validate(category, results);
+        Map<String, Object> response = new HashMap<>();
+        if (results.hasErrors()) {
+            response.put("Status", false);
+            response.put("Errors", results.getFieldErrors().stream()
+                    .collect(HashMap::new, (map, error) -> map.put(error.getField(), error.getDefaultMessage()), Map::putAll));
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
         response.put("Status", true);
         response.put("Data", categoryService.addCategory(category));
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -72,8 +83,15 @@ public class CategoryController {
         description = "Actualiza la información de una categoría existente que clasifica entradas de diario.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<?> putCategory(@RequestBody Category category) {
-    	Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<?> putCategory(@RequestBody Category category, BindingResult results) {
+    	categoryValidator.validate(category, results);
+        Map<String, Object> response = new HashMap<>();
+        if (results.hasErrors()) {
+            response.put("Status", false);
+            response.put("Errors", results.getFieldErrors().stream()
+                    .collect(HashMap::new, (map, error) -> map.put(error.getField(), error.getDefaultMessage()), Map::putAll));
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
         response.put("Status", true);
         response.put("Data", categoryService.upCategory(category));
         return new ResponseEntity<>(response, HttpStatus.OK);

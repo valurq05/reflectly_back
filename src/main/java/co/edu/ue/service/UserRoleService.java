@@ -15,26 +15,27 @@ public class UserRoleService implements IUserRoleService{
 	IUserRoleRepositoryDao userRoleDAO;
 	@Override
 	public List<UserRole> addUserRole(UserRole UserRole) {
-		// TODO Auto-generated method stub
 		return userRoleDAO.insertUserRole(UserRole);
 	}
 
 	@Override
 	public UserRole upUserRole(UserRole UserRole) {
-		// TODO Auto-generated method stub
 		return userRoleDAO.updateUserRole(UserRole);
 	}
 
 	@Override
 	public UserRole findByIdUserRole(int id) {
-		// TODO Auto-generated method stub
 		return userRoleDAO.findIdUserRole(id);
 	}
 
 	@Override
 	public List<UserRole> listAllUserRoles() {
-		// TODO Auto-generated method stub
 		return userRoleDAO.listUserRoles();
+	}
+
+	@Override
+	public Boolean existsByuseRolId(int useRolId) {
+		return userRoleDAO.existsUseRolId(useRolId);
 	}
 
 }

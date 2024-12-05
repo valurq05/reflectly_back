@@ -1,7 +1,7 @@
 package co.edu.ue.service;
 
 import java.time.LocalDate;
-import java.util.Date;
+
 import java.util.List;
 
 import co.edu.ue.dto.EntryDetailsDTO;

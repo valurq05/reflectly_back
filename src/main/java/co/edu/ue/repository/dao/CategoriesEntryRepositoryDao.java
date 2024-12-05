@@ -21,20 +21,25 @@ public class CategoriesEntryRepositoryDao implements ICategoriesEntryRepositoryD
 
 	@Override
 	public CategoriesEntry updateCategoriesEntry(CategoriesEntry categoriesEntry) {
-		// TODO Auto-generated method stub
+	
 		return categoriesEntryJPA.save(categoriesEntry);
 	}
 
 	@Override
 	public CategoriesEntry findIdCategoriesEntry(int id) {
-		// TODO Auto-generated method stub
-		return categoriesEntryJPA.findById(id).orElse(null);
+	
+		return categoriesEntryJPA.findById(id).orElseThrow(() -> new RuntimeException("No se encontro la categoria asociada a la entrada"));
 	}
 
 	@Override
 	public List<CategoriesEntry> listCategoriesEntry() {
-		// TODO Auto-generated method stub
+	
 		return categoriesEntryJPA.findAll();
+	}
+
+	@Override
+	public Boolean existsCatEntId(int catEntId) {
+		return categoriesEntryJPA.existsBycatEntId(catEntId);
 	}
 
 }

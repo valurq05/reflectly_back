@@ -10,5 +10,6 @@ public interface IEntryService {
 	Entry findByIdEntry(int id);
 	List<Entry> listAllEntry();
 	void toggleStatByUseEntryId(Integer entryId);
+	Boolean existsByentId(int entId);
 
 }

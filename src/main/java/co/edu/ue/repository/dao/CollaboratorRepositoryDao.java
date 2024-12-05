@@ -22,20 +22,26 @@ public class CollaboratorRepositoryDao implements ICollaboratorRepositoryDao{
 
 	@Override
 	public Collaborator updateCollaborator(Collaborator collaborator) {
-		// TODO Auto-generated method stub
+		
 		return collaboratorJPA.save(collaborator);
 	}
 
 	@Override
 	public Collaborator findIdCollaborator(int id) {
-		// TODO Auto-generated method stub
-		return collaboratorJPA.findById(id).orElse(null);
+		
+		return collaboratorJPA.findById(id).orElseThrow( () -> new RuntimeException("No se encontro el colaborador"));
 	}
 
 	@Override
 	public List<Collaborator> listCollaborators() {
-		// TODO Auto-generated method stub
+		
 		return collaboratorJPA.findAll();
+	}
+
+	@Override
+	public Boolean existsBycolId(int colId) {
+		
+		return collaboratorJPA.existsBycolId(colId);
 	}
 
 }

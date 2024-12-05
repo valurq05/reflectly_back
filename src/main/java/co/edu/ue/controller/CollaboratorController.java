@@ -1,13 +1,14 @@
 package co.edu.ue.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ue.entity.Collaborator;
 import co.edu.ue.service.ICollaboratorService;
+import co.edu.ue.validator.CollaboratorValidator;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
@@ -24,6 +26,8 @@ public class CollaboratorController {
 
     @Autowired
     ICollaboratorService collaboratorService;
+    @Autowired
+    CollaboratorValidator collaboratorValidator;
 
     @GetMapping(value = "collaborators", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
@@ -57,7 +61,17 @@ public class CollaboratorController {
         description = "Permite registrar un colaborador proporcionando su información.",
         tags = {"Colaboradores"}
     )
-    public ResponseEntity<?> postCollaborator(@RequestBody Collaborator collaborator) {
+    public ResponseEntity<?> postCollaborator(@RequestBody Collaborator collaborator, BindingResult result) {
+        collaboratorValidator.validate(collaborator, result);
+
+        if (result.hasErrors()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("Status", false);
+            for (ObjectError error : result.getAllErrors()) {
+                response.put(error.getObjectName(), error.getDefaultMessage());
+            }
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     	Map<String, Object> response = new HashMap<>();
         response.put("Status", true);
         response.put("Data", collaboratorService.addCollaborator(collaborator));
@@ -70,7 +84,17 @@ public class CollaboratorController {
         description = "Actualiza la información de un colaborador existente.",
         tags = {"Colaboradores"}
     )
-    public ResponseEntity<?> putCollaborator(@RequestBody Collaborator collaborator) {
+    public ResponseEntity<?> putCollaborator(@RequestBody Collaborator collaborator, BindingResult result) {
+        collaboratorValidator.validate(collaborator, result);
+
+        if (result.hasErrors()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("Status", false);
+            for (ObjectError error : result.getAllErrors()) {
+                response.put(error.getObjectName(), error.getDefaultMessage());
+            }
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     	Map<String, Object> response = new HashMap<>();
         response.put("Status", true);
         response.put("Data", collaboratorService.upCollaborator(collaborator));

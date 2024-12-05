@@ -10,4 +10,5 @@ public interface IEmotionalLogService{
 	EmotionalLog upEmotionalLog(EmotionalLog emotionalLog);
 	EmotionalLog findByIdEmotionalLog(int id);
 	List<EmotionalLog> listAllEmotionalLogs();
+	Boolean existsByemoLogId(int emoLogId);
 }

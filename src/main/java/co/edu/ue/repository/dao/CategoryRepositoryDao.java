@@ -26,7 +26,7 @@ public class CategoryRepositoryDao implements ICategoryRepositoryDao{
 
 	@Override
 	public Category findIdCategory(int id) {
-		return categoryJPA.findById(id).orElse(null);
+		return categoryJPA.findById(id).orElseThrow( () -> new RuntimeException("No se encontro la categoria"));
 	}
 
 	@Override
@@ -36,7 +36,6 @@ public class CategoryRepositoryDao implements ICategoryRepositoryDao{
 
 	@Override
 	public Boolean existscatId(int useId) {
-		// TODO Auto-generated method stub
 		return categoryJPA.existsBycatId(useId);
 	}
 

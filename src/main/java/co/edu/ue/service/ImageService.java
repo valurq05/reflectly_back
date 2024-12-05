@@ -37,4 +37,9 @@ public class ImageService implements IImageService {
     public List<Image> listAllImages() {
         return imageDAO.listImages();
     }
+
+    @Override
+    public Boolean existsByimgId(int imgId) {
+        return imageDAO.existsImgId(imgId);
+    }
 }

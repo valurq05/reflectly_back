@@ -20,19 +20,22 @@ public class ImagesRepositoryDao implements IImageRepostioryDao{
 
 	@Override
 	public Image updateImage(Image Image) {
-		// TODO Auto-generated method stub
 		return imageJPA.save(Image);
 	}
 
 	@Override
 	public Image findIdImage(int id) {
-		// TODO Auto-generated method stub
-		return imageJPA.findById(id).orElse(null);
+		return imageJPA.findById(id).orElseThrow( () -> new RuntimeException("No se encontro la imagen"));
 	}
 
 	@Override
 	public List<Image> listImages() {
 		return imageJPA.findAll();
+	}
+
+	@Override
+	public Boolean existsImgId(int imgId) {
+		return imageJPA.existsById(imgId);
 	}
 
 }

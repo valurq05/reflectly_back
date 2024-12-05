@@ -10,4 +10,5 @@ public interface IPersonService {
 	Person upPerson(Person person);
 	Person findByIdPerson(int id);
 	List<Person> listAllPersons();
+	Boolean existsByperId(int perId);
 }

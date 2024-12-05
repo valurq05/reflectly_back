@@ -1,7 +1,7 @@
 package co.edu.ue.controller;
 
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class EmotionalLogController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(value = "Emotional/Log", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "Emotional/Log/show", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
         summary = "Obtener un registro emocional por ID",
         description = "Devuelve un registro emocional específico a partir de su ID, para análisis detallado del estado de ánimo.",

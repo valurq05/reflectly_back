@@ -10,4 +10,5 @@ public interface ICollaboratorRepositoryDao {
 	Collaborator updateCollaborator(Collaborator collaborator);
 	Collaborator findIdCollaborator(int id);
 	List<Collaborator> listCollaborators();
+	Boolean existsBycolId(int colId);
 }

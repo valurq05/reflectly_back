@@ -21,25 +21,21 @@ public class EmotionalStateRepositoryDao implements IEmotionalStateRepositoryDao
 
 	@Override
 	public EmotionalState updateEmotionalState(EmotionalState emotionalState) {
-		// TODO Auto-generated method stub
 		return emotionalStateJPA.save(emotionalState);
 	}
 
 	@Override
 	public EmotionalState findIdEmotionalState(int id) {
-		// TODO Auto-generated method stub
-		return emotionalStateJPA.findById(id).orElse(null);
+		return emotionalStateJPA.findById(id).orElseThrow(() -> new RuntimeException("No se encontro el estado emocional"));
 	}
 
 	@Override
 	public List<EmotionalState> listEmotionalState() {
-		// TODO Auto-generated method stub
 		return emotionalStateJPA.findAll();
 	}
 
 	@Override
 	public Boolean existsEmoStaId(int useId) {
-		// TODO Auto-generated method stub
 		return emotionalStateJPA.existsByemoStaId(useId);
 	}
 

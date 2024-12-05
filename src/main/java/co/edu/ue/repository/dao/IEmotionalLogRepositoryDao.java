@@ -10,4 +10,6 @@ public interface IEmotionalLogRepositoryDao {
 	EmotionalLog updateEmotionalLog(EmotionalLog emotionalLog);
 	EmotionalLog findIdEmotionalLog(int id);
 	List<EmotionalLog> listEmotionalLogs();
+	Boolean existsByemoLogId(int emoLogId);
+
 }

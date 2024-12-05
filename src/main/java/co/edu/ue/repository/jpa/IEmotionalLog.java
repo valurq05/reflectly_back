@@ -6,4 +6,5 @@ import co.edu.ue.entity.EmotionalLog;
 
 public interface IEmotionalLog extends JpaRepository<EmotionalLog, Integer>{
 
+    Boolean existsByemoLogId(int emoLogId);
 }

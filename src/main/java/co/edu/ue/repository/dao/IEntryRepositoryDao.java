@@ -12,5 +12,5 @@ public interface IEntryRepositoryDao {
 	Entry findIdEntry(int id);
 	List<Entry> listEntries();
 	void toggleStatuseEntryId(Integer entryId);
-	
+	Boolean existsByentId(int entId);
 }

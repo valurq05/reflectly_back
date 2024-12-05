@@ -11,4 +11,6 @@ public interface ICategoriesEntryRepositoryDao {
 	CategoriesEntry updateCategoriesEntry(CategoriesEntry categoriesEntry);
 	CategoriesEntry findIdCategoriesEntry(int id);
 	List<CategoriesEntry> listCategoriesEntry();
+	Boolean existsCatEntId(int catEntId);
+
 }

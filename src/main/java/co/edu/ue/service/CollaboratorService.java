@@ -15,26 +15,27 @@ public class CollaboratorService implements ICollaboratorService {
 	ICollaboratorRepositoryDao collaboratorDAO;
 	@Override
 	public List<Collaborator> addCollaborator(Collaborator collaborator) {
-		// TODO Auto-generated method stub
 		return collaboratorDAO.insertCollaborator(collaborator);
 	}
 
 	@Override
 	public Collaborator upCollaborator(Collaborator collaborator) {
-		// TODO Auto-generated method stub
 		return collaboratorDAO.updateCollaborator(collaborator);
 	}
 
 	@Override
 	public Collaborator findByIdCollaborator(int id) {
-		// TODO Auto-generated method stub
 		return collaboratorDAO.findIdCollaborator(id);
 	}
 
 	@Override
 	public List<Collaborator> listAllCollaborators() {
-		// TODO Auto-generated method stub
 		return collaboratorDAO.listCollaborators();
+	}
+
+	@Override
+	public Boolean existsBycolId(int colId) {
+		return collaboratorDAO.existsBycolId(colId);
 	}
 
 }

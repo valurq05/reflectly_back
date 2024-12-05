@@ -17,26 +17,27 @@ public class CategoriesEntryService implements ICategoriesEntryService {
 
 	@Override
 	public List<CategoriesEntry> addCategoriesEntry(CategoriesEntry categoriesEntry) {
-		// TODO Auto-generated method stub
 		return categoriesEntryDAO.insertCategoriesEntry(categoriesEntry);
 	}
 
 	@Override
 	public CategoriesEntry upCategoriesEntry(CategoriesEntry categoriesEntry) {
-		// TODO Auto-generated method stub
 		return categoriesEntryDAO.updateCategoriesEntry(categoriesEntry);
 	}
 
 	@Override
 	public CategoriesEntry findByIdCategoriesEntry(int id) {
-		// TODO Auto-generated method stub
 		return categoriesEntryDAO.findIdCategoriesEntry(id);
 	}
 
 	@Override
 	public List<CategoriesEntry> listAllCategoriesEntry() {
-		// TODO Auto-generated method stub
 		return categoriesEntryDAO.listCategoriesEntry();
+	}
+
+	@Override
+	public Boolean existsCatEntId(int catEntId) {
+		return categoriesEntryDAO.existsCatEntId(catEntId);
 	}
 
 }

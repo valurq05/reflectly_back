@@ -17,8 +17,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 
  
@@ -141,15 +140,15 @@ public class SecurityConfig {
 			.requestMatchers(HttpMethod.POST,"/collaborator").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.PUT,"/collaborator").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET,"/Emotional/Logs").hasAnyRole("ADMIN","USER")
-			.requestMatchers(HttpMethod.GET,"/Emotional/Logs").hasAnyRole("ADMIN","USER")
-			.requestMatchers(HttpMethod.POST,"/Emotiona/Logs").hasAnyRole("ADMIN","USER")
-			.requestMatchers(HttpMethod.PUT,"/Emotional/Logs").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/Emotional/Log/show").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/Emotiona/Log").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.PUT,"/Emotional/Log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET,"/categories/entries").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET,"/categories/entry").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/categories/entry").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.PUT,"/categories/entry").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET,"/daily/logs").hasAnyRole("ADMIN","USER")
-			.requestMatchers(HttpMethod.GET,"/daily/log").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.GET,"/daily/log/show").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.PUT,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/daily/log/allinfo").hasAnyRole("ADMIN","USER")

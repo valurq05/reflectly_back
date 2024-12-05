@@ -10,4 +10,5 @@ public interface IPersonRepositoryDao {
 	Person updatePerson(Person person);
 	Person findIdPerson(int id);
 	List<Person> listPersons();
+	Boolean existsPerId(int perId);
 }

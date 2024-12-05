@@ -3,7 +3,6 @@ package co.edu.ue.controller;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -25,8 +24,6 @@ import co.edu.ue.entity.Collaborator;
 import co.edu.ue.entity.DailyLog;
 import co.edu.ue.entity.EmotionalLog;
 import co.edu.ue.entity.Entry;
-import co.edu.ue.entity.User;
-import co.edu.ue.repository.jpa.IEmotionalState;
 import co.edu.ue.service.ICategoryService;
 import co.edu.ue.service.ICollaboratorService;
 import co.edu.ue.service.IDailyLogService;
@@ -35,6 +32,7 @@ import co.edu.ue.service.IEmotionalStateService;
 import co.edu.ue.service.IEntryService;
 import co.edu.ue.service.IUserService;
 import co.edu.ue.validator.DailyInfoValidator;
+import co.edu.ue.validator.DailyLogValidator;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
@@ -56,6 +54,8 @@ public class DailyLogController {
 		ICategoryService categoryService;
 		@Autowired 
 		DailyInfoValidator dailyValidator;
+		@Autowired
+		DailyLogValidator dailyLogValidator;
 
 		@GetMapping(value = "daily/logs", produces = MediaType.APPLICATION_JSON_VALUE)
 		@Operation(
@@ -106,7 +106,7 @@ public class DailyLogController {
 		}
 		
 
-		@GetMapping(value = "daily/log", produces = MediaType.APPLICATION_JSON_VALUE)
+		@GetMapping(value = "daily/log/show", produces = MediaType.APPLICATION_JSON_VALUE)
 		@Operation(
 		    summary = "Obtener un registro diario por ID",
 		    description = "Devuelve un registro diario específico a partir de su ID, para su consulta detallada.",
@@ -125,12 +125,28 @@ public class DailyLogController {
 		    description = "Permite añadir un nuevo registro diario al sistema.",
 		    tags = {"Análisis de Estado de Ánimo"}
 		)
-		public ResponseEntity<?> postDailyLog(@RequestBody DailyLog DailyLog) {
+		public ResponseEntity<?> postDailyLog(@RequestBody DailyLog DailyLog, BindingResult result) {
+
+			dailyLogValidator.validate(DailyLog, result);
+    
+			if (result.hasErrors()) {
+				
+				Map<String, String> errors = result.getFieldErrors().stream()
+					.collect(Collectors.toMap(
+						error -> error.getField(),
+						error -> error.getDefaultMessage()
+					));
+				Map<String, Object> response = new HashMap<>();
+				response.put("Data", errors);
+				response.put("Status", false);
+				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+			}
 			Map<String, Object> response = new HashMap<>();
 	        response.put("Status", true);
 	        response.put("Data", DailyLogService.addDailyLog(DailyLog));
 	        return new ResponseEntity<>(response, HttpStatus.OK);
 		}
+	
 
 		@PutMapping(value = "daily/log", produces = MediaType.APPLICATION_JSON_VALUE)
 		@Operation(
@@ -138,7 +154,22 @@ public class DailyLogController {
 		    description = "Permite actualizar un registro diario existente, modificando sus detalles.",
 		    tags = {"Análisis de Estado de Ánimo"}
 		)
-		public ResponseEntity<?> putDailyLog(@RequestBody DailyLog DailyLog) {
+		public ResponseEntity<?> putDailyLog(@RequestBody DailyLog DailyLog, BindingResult result) {
+			dailyLogValidator.validate(DailyLog, result);
+    
+			if (result.hasErrors()) {
+				
+				Map<String, String> errors = result.getFieldErrors().stream()
+					.collect(Collectors.toMap(
+						error -> error.getField(),
+						error -> error.getDefaultMessage()
+					));
+				Map<String, Object> response = new HashMap<>();
+				response.put("Data", errors);
+				response.put("Status", false);
+				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+			}
+			System.out.println(DailyLog);
 			Map<String, Object> response = new HashMap<>();
 	        response.put("Status", true);
 	        response.put("Data", DailyLogService.upDailyLog(DailyLog));

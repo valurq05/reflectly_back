@@ -26,12 +26,17 @@ public class PersonRepostiroyDao implements IPersonRepositoryDao {
 
 	@Override
 	public Person findIdPerson(int id) {
-		return personJpa.findById(id).orElse(null);
+		return personJpa.findById(id).orElseThrow(() -> new RuntimeException("No se encontro la persona"));
 	}
 
 	@Override
 	public List<Person> listPersons() {
 		return personJpa.findAll();
+	}
+
+	@Override
+	public Boolean existsPerId(int perId) {
+		return personJpa.existsByperId(perId);
 	}
 
 }

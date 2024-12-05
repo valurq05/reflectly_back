@@ -11,4 +11,5 @@ public interface ICategoriesEntryService {
 	CategoriesEntry upCategoriesEntry(CategoriesEntry categoriesEntry);
 	CategoriesEntry findByIdCategoriesEntry(int id);
 	List<CategoriesEntry> listAllCategoriesEntry();
+	Boolean existsCatEntId(int catEntId);
 }

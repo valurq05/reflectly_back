@@ -27,14 +27,17 @@ public class UserRoleRepositoryDao implements IUserRoleRepositoryDao{
 
 	@Override
 	public UserRole findIdUserRole(int id) {
-		// TODO Auto-generated method stub
-		return userRoleJPA.findById(id).orElse(null);
+		return userRoleJPA.findById(id).orElseThrow( () -> new RuntimeException("No se encontro el rol de usuario"));
 	}
 
 	@Override
 	public List<UserRole> listUserRoles() {
-		// TODO Auto-generated method stub
 		return userRoleJPA.findAll();
+	}
+
+	@Override
+	public Boolean existsUseRolId(int useRolId) {
+		return userRoleJPA.existsByrolId(useRolId);
 	}
 
 }

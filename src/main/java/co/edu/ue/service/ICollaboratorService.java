@@ -10,4 +10,5 @@ public interface ICollaboratorService {
 	Collaborator upCollaborator(Collaborator collaborator);
 	Collaborator findByIdCollaborator(int id);
 	List<Collaborator> listAllCollaborators();
+	Boolean existsBycolId(int colId);
 }

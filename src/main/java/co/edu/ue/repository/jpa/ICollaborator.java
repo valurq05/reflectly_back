@@ -6,4 +6,5 @@ import co.edu.ue.entity.Collaborator;
 
 public interface ICollaborator extends JpaRepository<Collaborator, Integer>{
 
+    Boolean existsBycolId(int colId);
 }

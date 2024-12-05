@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 				title="Reflectly",
 				description = "Reflectly API te permite gestionar entradas de diario, analizar estados de ánimo"
 								+ " y compartir pensamientos. Incluye autenticación JWT para garantizar la seguridad de los datos.",
-				contact = @Contact(name = "Sebastian Hernandez",
+				contact = @Contact(name = "Reflectly Development Team",
 									email = "reflectly@gmail.com"),
 				termsOfService = "Todos los derechos reservados, feo el que robe.",
 				version = "0.1.1"

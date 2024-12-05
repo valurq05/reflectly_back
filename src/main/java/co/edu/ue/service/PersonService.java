@@ -33,4 +33,9 @@ public class PersonService implements IPersonService {
 		return personDao.listPersons();
 	}
 
+	@Override
+	public Boolean existsByperId(int perId) {
+		return personDao.existsPerId(perId);
+	}
+
 }

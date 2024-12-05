@@ -27,8 +27,7 @@ public class UserRepositoryDao implements IUserRepositoryDao{
 
 	@Override
 	public User findIdUser(int id) {
-		// TODO Auto-generated method stub
-		return userJPA.findById(id).orElse(null);
+		return userJPA.findById(id).orElseThrow( () -> new RuntimeException("No se encontro el usuario"));
 	}
 
 	@Override
@@ -39,7 +38,6 @@ public class UserRepositoryDao implements IUserRepositoryDao{
 
 	@Override
 	public User findMailUser(String mail) {
-		// TODO Auto-generated method stub
 		return userJPA.findByuseMail(mail);
 	}
 
@@ -52,7 +50,6 @@ public class UserRepositoryDao implements IUserRepositoryDao{
 
 	@Override
 	public Boolean existIdUser(int id) {
-		// TODO Auto-generated method stub
 		return userJPA.existsByuseId(id);
 	}
 

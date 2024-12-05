@@ -11,4 +11,5 @@ public interface IImageService {
 	Image upImage(Image Image);
 	Image findByIdImage(int id);
 	List<Image> listAllImages();
+	Boolean existsByimgId(int imgId);
 }

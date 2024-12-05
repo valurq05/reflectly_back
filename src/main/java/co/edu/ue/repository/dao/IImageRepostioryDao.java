@@ -10,5 +10,6 @@ public interface IImageRepostioryDao{
 	Image updateImage(Image Image);
 	Image findIdImage(int id);
 	List<Image> listImages();
+	Boolean existsImgId(int imgId);
 
 }

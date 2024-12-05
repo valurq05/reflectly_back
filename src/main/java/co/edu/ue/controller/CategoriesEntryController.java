@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ue.entity.CategoriesEntry;
 import co.edu.ue.service.ICategoriesEntryService;
+import co.edu.ue.validator.CategoriesEntryValidator;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
@@ -25,6 +27,8 @@ import io.swagger.v3.oas.annotations.Operation;
 public class CategoriesEntryController {
 	@Autowired
     ICategoriesEntryService categoriesEntryService;
+    @Autowired
+    CategoriesEntryValidator categoriesEntryValidator;
 
     @GetMapping(value = "categories/entries", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
@@ -47,6 +51,17 @@ public class CategoriesEntryController {
     )
     public ResponseEntity<?> getCategoriesEntry(@RequestParam int id) {
     	Map<String, Object> response = new HashMap<>();
+        if (id <= 0) {
+            response.put("Status", false);
+            response.put("Errors", Map.of("id", "El ID debe ser un número positivo"));
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+        CategoriesEntry categoriesEntry = categoriesEntryService.findByIdCategoriesEntry(id);
+        if (categoriesEntry == null) {
+            response.put("Status", false);
+            response.put("Errors", Map.of("id", "No existe una categoría con el ID proporcionado"));
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
         response.put("Status", true);
         response.put("Data", categoriesEntryService.findByIdCategoriesEntry(id));
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -58,7 +73,18 @@ public class CategoriesEntryController {
         description = "Permite añadir una nueva categoría a entradas de diario para clasificarlas.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<?> postCategoriesEntry(@RequestBody CategoriesEntry CategoriesEntry) {
+    public ResponseEntity<?> postCategoriesEntry(@RequestBody CategoriesEntry CategoriesEntry, BindingResult result) {
+
+        categoriesEntryValidator.validate(CategoriesEntry, result);
+
+        if (result.hasErrors()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("Status", false);
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
+            response.put("Errors", errors);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     	Map<String, Object> response = new HashMap<>();
         response.put("Status", true);
         response.put("Data", categoriesEntryService.addCategoriesEntry(CategoriesEntry));
@@ -71,7 +97,17 @@ public class CategoriesEntryController {
         description = "Actualiza la asociación de una categoria con la entrada de diario.",
         tags = {"Entradas de Diario"}
     )
-    public ResponseEntity<?> putCategoriesEntry(@RequestBody CategoriesEntry CategoriesEntry) {
+    public ResponseEntity<?> putCategoriesEntry(@RequestBody CategoriesEntry CategoriesEntry, BindingResult result) {
+        categoriesEntryValidator.validate(CategoriesEntry, result);
+
+        if (result.hasErrors()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("Status", false);
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
+            response.put("Errors", errors);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     	Map<String, Object> response = new HashMap<>();
         response.put("Status", true);
         response.put("Data", categoriesEntryService.upCategoriesEntry(CategoriesEntry));

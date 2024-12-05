@@ -10,4 +10,5 @@ public interface IUserRoleRepositoryDao{
 	UserRole updateUserRole(UserRole UserRole);
 	UserRole findIdUserRole(int id);
 	List<UserRole> listUserRoles();
+	Boolean existsUseRolId(int useRolId);
 }

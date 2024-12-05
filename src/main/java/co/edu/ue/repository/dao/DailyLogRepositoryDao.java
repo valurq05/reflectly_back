@@ -1,7 +1,6 @@
 package co.edu.ue.repository.dao;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +25,16 @@ public class DailyLogRepositoryDao implements IDailyLogRepositoryDao{
 
 	@Override
 	public DailyLog updateDailyLog(DailyLog DailyLog) {
-		// TODO Auto-generated method stub
 		return dailyLogJPA.save(DailyLog);
 	}
 
 	@Override
 	public DailyLog findIdDailyLog(int id) {
-		// TODO Auto-generated method stub
-		return dailyLogJPA.findById(id).orElse(null);
+		return dailyLogJPA.findById(id).orElseThrow( () -> new RuntimeException("No se encontro el registro diario"));
 	}
 
 	@Override
 	public List<DailyLog> listDailyLogs() {
-		// TODO Auto-generated method stub
 		return dailyLogJPA.findAll();
 	}
 
@@ -49,7 +45,6 @@ public class DailyLogRepositoryDao implements IDailyLogRepositoryDao{
 
 	@Override
 	public List<Object[]> listfindCategoriesForEntries(int userId) {
-		// TODO Auto-generated method stub
 		return dailyLogJPA.findCategoriesForEntries(userId);
 	}
 

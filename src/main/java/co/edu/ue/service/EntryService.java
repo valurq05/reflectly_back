@@ -15,25 +15,21 @@ public class EntryService implements IEntryService{
 	IEntryRepositoryDao entryDAO;
 	@Override
 	public List<Entry> addEntry(Entry entry) {
-		// TODO Auto-generated method stub
 		return entryDAO.insertEntry(entry);
 	}
 
 	@Override
 	public Entry upEntry(Entry entry) {
-		// TODO Auto-generated method stub
 		return entryDAO.updateEntry(entry);
 	}
 
 	@Override
 	public Entry findByIdEntry(int id) {
-		// TODO Auto-generated method stub
 		return entryDAO.findIdEntry(id);
 	}
 
 	@Override
 	public List<Entry> listAllEntry() {
-		// TODO Auto-generated method stub
 		return entryDAO.listEntries();
 	}
 
@@ -42,6 +38,11 @@ public class EntryService implements IEntryService{
 		
 		entryDAO.toggleStatuseEntryId(entryId);
 		
+	}
+
+	@Override
+	public Boolean existsByentId(int entId) {
+		return entryDAO.existsByentId(entId);
 	}
 
 

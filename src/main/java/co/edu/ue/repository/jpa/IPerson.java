@@ -7,4 +7,5 @@ import co.edu.ue.entity.Person;
 public interface IPerson extends JpaRepository<Person, Integer> {
 	
 
+    Boolean existsByperId(int perId);
 }

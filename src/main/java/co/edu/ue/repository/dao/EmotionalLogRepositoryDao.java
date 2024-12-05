@@ -15,27 +15,28 @@ public class EmotionalLogRepositoryDao implements IEmotionalLogRepositoryDao{
 	IEmotionalLog emotionalLogJPA;
 	@Override
 	public List<EmotionalLog> insertEmotionalLog(EmotionalLog emotionalLog) {
-		// TODO Auto-generated method stub
 		emotionalLogJPA.save(emotionalLog);
 		return listEmotionalLogs();
 	}
 
 	@Override
 	public EmotionalLog updateEmotionalLog(EmotionalLog emotionalLog) {
-		// TODO Auto-generated method stub
 		return emotionalLogJPA.save(emotionalLog);
 	}
 
 	@Override
 	public EmotionalLog findIdEmotionalLog(int id) {
-		// TODO Auto-generated method stub
-		return emotionalLogJPA.findById(id).orElse(null);
+		return emotionalLogJPA.findById(id).orElseThrow(() -> new RuntimeException("No se encontro el registro emocional"));
 	}
 
 	@Override
 	public List<EmotionalLog> listEmotionalLogs() {
-		// TODO Auto-generated method stub
 		return emotionalLogJPA.findAll();
+	}
+
+	@Override
+	public Boolean existsByemoLogId(int emoLogId) {
+		return emotionalLogJPA.existsByemoLogId(emoLogId);
 	}
 
 }

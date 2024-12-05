@@ -6,4 +6,5 @@ import co.edu.ue.entity.UserRole;
 
 public interface IUserRole extends JpaRepository<UserRole, Integer> {
 
+    Boolean existsByrolId(int rolId);
 }

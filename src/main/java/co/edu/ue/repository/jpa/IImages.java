@@ -6,4 +6,5 @@ import co.edu.ue.entity.Image;
 
 public interface IImages extends JpaRepository<Image, Integer>{
 	
+    Boolean existsByimgId(int imgId);
 }

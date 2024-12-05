@@ -21,20 +21,17 @@ public class EntryRepositoryDao implements IEntryRepositoryDao{
 
 	@Override
 	public Entry updateEntry(Entry entry) {
-		// TODO Auto-generated method stub
 		return entryJPA.save(entry);
 	}
 
 	@Override
 	public Entry findIdEntry(int id) {
-		// TODO Auto-generated method stub
 		
-		return entryJPA.findById(id).orElse(null);
+		return entryJPA.findById(id).orElseThrow( () -> new RuntimeException("No se encontro la entrada"));
 	}
 
 	@Override
 	public List<Entry> listEntries() {
-		// TODO Auto-generated method stub
 		return entryJPA.findAll();
 	}
 
@@ -42,6 +39,11 @@ public class EntryRepositoryDao implements IEntryRepositoryDao{
 	public void toggleStatuseEntryId(Integer entryId) {
 			entryJPA.toggleStatusById(entryId);
 		
+	}
+
+	@Override
+	public Boolean existsByentId(int entId) {
+		return entryJPA.existsById(entId);
 	}
 
 
