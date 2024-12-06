@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.ue.entity.CategoriesEntry;
+import co.edu.ue.entity.Category;
+import co.edu.ue.entity.Entry;
 import co.edu.ue.repository.dao.ICategoriesEntryRepositoryDao;
 
 
@@ -38,6 +40,11 @@ public class CategoriesEntryService implements ICategoriesEntryService {
 	@Override
 	public Boolean existsCatEntId(int catEntId) {
 		return categoriesEntryDAO.existsCatEntId(catEntId);
+	}
+
+	@Override
+	public Boolean existsBycategoryAndEntry(Category catId, Entry entId) {
+		return categoriesEntryDAO.existsCategoryAndEntry(catId, entId);
 	}
 
 }
