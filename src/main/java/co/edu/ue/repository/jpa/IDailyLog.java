@@ -13,27 +13,27 @@ import co.edu.ue.entity.DailyLog;
 
 public interface IDailyLog extends JpaRepository<DailyLog, Integer>{
 
-	@Query("SELECT new co.edu.ue.dto.EntryDetailsDTO(en.entId, dl.dayLogDate, el.emoLogId, el.emoLogDate, es.emoStaState, " +
-            "en.entDate, en.entTitle, en.entText, p.perName, u.useMail) " +
-            "FROM DailyLog dl " +
-            "JOIN dl.emotionalLog el " +
-            "JOIN el.emotionalState es " +
-            "JOIN dl.entry en " +
-            "JOIN Collaborator c ON c.entry = en " +
-            "JOIN c.user u " +
-            "JOIN u.person p " +
-            "LEFT JOIN CategoriesEntry ce ON ce.entry = en " + 
-            "LEFT JOIN ce.category ca " + 
-            "WHERE u.useId = :userId " +
-            "AND (:dayLogDate IS NULL OR dl.dayLogDate = :dayLogDate) " +
-            "AND (:categoryId IS NULL OR ce.category.catId = :categoryId) " +
-            "AND en.entStatus = true "+
-            "GROUP BY en.entId, dl.dayLogDate, el.emoLogId, el.emoLogDate, es.emoStaState, " +
-            "en.entDate, en.entTitle, en.entText, p.perName, u.useMail")
-List<EntryDetailsDTO> findEntryDetailsByUserAndOptionalDateAndCategory(
-    @Param("userId") int userId, 
-    @Param("dayLogDate") LocalDate dayLogDate, 
-    @Param("categoryId") Integer categoryId);
+	@Query("SELECT new co.edu.ue.dto.EntryDetailsDTO(dl.dayLogId, en.entId, dl.dayLogDate, el.emoLogId, el.emoLogDate, " +
+			"es.emoStaState, en.entDate, en.entTitle, en.entText, p.perName, u.useMail) " +
+			"FROM DailyLog dl " +
+			"JOIN dl.emotionalLog el " +
+			"JOIN el.emotionalState es " +
+			"JOIN dl.entry en " +
+			"JOIN Collaborator c ON c.entry = en " +
+			"JOIN c.user u " +
+			"JOIN u.person p " +
+			"LEFT JOIN CategoriesEntry ce ON ce.entry = en " +
+			"WHERE u.useId = :userId " +
+			"AND (:dayLogDate IS NULL OR dl.dayLogDate = :dayLogDate) " +
+			"AND (:categoryId IS NULL OR ce.category.catId = :categoryId) " +
+			"AND en.entStatus = true " +
+			"GROUP BY dl.dayLogId, en.entId, dl.dayLogDate, el.emoLogId, el.emoLogDate, es.emoStaState, " +
+			"en.entDate, en.entTitle, en.entText, p.perName, u.useMail")
+	List<EntryDetailsDTO> findEntryDetailsByUserAndOptionalDateAndCategory(
+			@Param("userId") int userId,
+			@Param("dayLogDate") LocalDate dayLogDate,
+			@Param("categoryId") Integer categoryId);
+
 
 
 	

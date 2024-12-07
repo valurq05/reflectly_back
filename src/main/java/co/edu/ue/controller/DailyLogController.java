@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import co.edu.ue.dto.UpdateDailyLogDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -114,6 +115,7 @@ public class DailyLogController {
 		)
 		public ResponseEntity<?> getDailyLog(@RequestParam int id) {
 			Map<String, Object> response = new HashMap<>();
+			System.out.println("llego aca");
 	        response.put("Status", true);
 	        response.put("Data", DailyLogService.findByIdDailyLog(id));
 	        return new ResponseEntity<>(response, HttpStatus.OK);
@@ -148,7 +150,7 @@ public class DailyLogController {
 		}
 	
 
-		@PutMapping(value = "daily/log", produces = MediaType.APPLICATION_JSON_VALUE)
+		/*@PutMapping(value = "daily/log", produces = MediaType.APPLICATION_JSON_VALUE)
 		@Operation(
 		    summary = "Actualizar un registro diario",
 		    description = "Permite actualizar un registro diario existente, modificando sus detalles.",
@@ -174,9 +176,29 @@ public class DailyLogController {
 	        response.put("Status", true);
 	        response.put("Data", DailyLogService.upDailyLog(DailyLog));
 	        return new ResponseEntity<>(response, HttpStatus.OK);
-		}
-		
-		@PostMapping(value ="daily/log/allinfo", produces = MediaType.APPLICATION_JSON_VALUE)
+		} */
+
+
+	@PutMapping(value = "daily/log", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Operation(
+			summary = "Actualizar un registro diario",
+			description = "Permite actualizar un registro diario existente, modificando sus detalles.",
+			tags = {"Análisis de Estado de Ánimo"}
+	)
+	public ResponseEntity<?> putDailyLog(@RequestBody UpdateDailyLogDTO fullInfo, @RequestParam int id) {
+	//	dailyLogValidator.validate(fullInfo, result);
+
+		DailyLog dailyLog = DailyLogService.findByIdDailyLog(id);
+
+		System.out.println(dailyLog);
+
+
+	
+		return null;
+	}
+
+
+	@PostMapping(value ="daily/log/allinfo", produces = MediaType.APPLICATION_JSON_VALUE)
 		@Operation(
 			    summary = "Crear un registro diario con toda su información necesaria",
 			    description = "Permite crear un registro diario registrando inmediatamente su registro emocial y su entrada",
