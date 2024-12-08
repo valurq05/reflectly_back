@@ -94,8 +94,8 @@ public class GoogleAuthController {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> params = new HashMap<>();
         params.put("code", code);
-        params.put("client_id", googleProperties.getClientId());
-        params.put("client_secret", googleProperties.getClientSecret());
+        params.put("client_id", System.getenv("GOOGLE_CLIENT_ID"));
+        params.put("client_secret", System.getenv("GOOGLE_CLIENT_SECRET"));
         params.put("redirect_uri", "http://localhost:8080/oauth/google");
         params.put("grant_type", "authorization_code");
 
