@@ -190,11 +190,38 @@ public class DailyLogController {
 
 		DailyLog dailyLog = DailyLogService.findByIdDailyLog(id);
 
-		System.out.println(dailyLog);
+		if (dailyLog == null) {
+			Map<String, Object> response = new HashMap<>();
+			response.put("Data", "Daily log not found");
+			response.put("Status", false);
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+
+		System.out.println(dailyLog.getEmotionalLog().getEmoLogId()+"asssad");
+		EmotionalLog newEmoLog =dailyLog.getEmotionalLog();
 
 
-	
-		return null;
+		newEmoLog.setEmoLogDate(new Date());
+		newEmoLog.setUser(userService.findByIdUser(dailyLog.getEmotionalLog().getUser().getUseId()));
+		newEmoLog.setEmotionalState(emoStateService.findByIdEmotionalState(fullInfo.getIdEmoLogState()));
+
+		Entry newEntry = dailyLog.getEntry();
+		newEntry.setEntDate(new Date());
+		newEntry.setEntText(fullInfo.getEntText());
+		newEntry.setEntTitle(fullInfo.getEntTitle());
+		newEntry.setEntStatus(true);
+
+		dailyLog.setDayLogDate(new Date());
+		dailyLog.setEmotionalLog(newEmoLog);
+		dailyLog.setEntry(newEntry);
+
+		DailyLog updatedDailyLog = DailyLogService.upDailyLog(dailyLog);
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("Status", true);
+		response.put("Data", updatedDailyLog);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+
 	}
 
 
