@@ -50,7 +50,7 @@ public class SecurityConfig {
 		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		ds.setUrl("jdbc:mysql://localhost:3306/reflectly");
 		ds.setUsername("root");
-		ds.setPassword("");
+		ds.setPassword("root");
 		
 		JdbcUserDetailsManager jdbcDetails=new JdbcUserDetailsManager(ds);
 		
@@ -152,7 +152,7 @@ public class SecurityConfig {
 			.requestMatchers(HttpMethod.POST,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.PUT,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/daily/log/allinfo").hasAnyRole("ADMIN","USER")
-			.requestMatchers(HttpMethod.POST,"/oauth/google").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/oauth/google").permitAll()
 			.requestMatchers(HttpMethod.GET, "/images/{filename}").permitAll()
 			.requestMatchers(
 	                "/swagger-ui/**",
