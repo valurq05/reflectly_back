@@ -19,11 +19,14 @@ public class EntryDetailsDTO {
 	private String perName;
 	private String useMail;
 	private List<String> catCategorie;
+	
 
-	// Constructor con dailyLogId
+	private List<String> imgUrl;
+
+	
 	public EntryDetailsDTO(int dailyLogId, int entId, Date dayLogDate, int emoLogId, Date emoLogDate,
 						   String emoStaState, Date entDate, String entTitle, String entText,
-						   String perName, String useMail, List<String> catCategorie) {
+						   String perName, String useMail, List<String> catCategorie, List<String> imgUrl) {
 		super();
 		this.dailyLogId = dailyLogId;
 		this.entId = entId;
@@ -37,9 +40,10 @@ public class EntryDetailsDTO {
 		this.perName = perName;
 		this.useMail = useMail;
 		this.catCategorie = catCategorie != null ? catCategorie : new ArrayList<>();
+		this.imgUrl = imgUrl != null ? imgUrl : new ArrayList<>();
 	}
 
-	// Constructor simplificado con dailyLogId
+	
 	public EntryDetailsDTO(int dailyLogId, int entId, Date dayLogDate, int emoLogId, Date emoLogDate,
 						   String emoStaState, Date entDate, String entTitle, String entText,
 						   String perName, String useMail) {
@@ -56,6 +60,7 @@ public class EntryDetailsDTO {
 		this.perName = perName;
 		this.useMail = useMail;
 		this.catCategorie = new ArrayList<>();
+		this.imgUrl = new ArrayList<>();
 	}
 
 	// Getter y Setter para dailyLogId
@@ -157,5 +162,17 @@ public class EntryDetailsDTO {
 
 	public void addCategory(String category) {
 		this.catCategorie.add(category);
+	}
+
+	public List<String> getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(List<String> imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	public void add(String imageUrl) {
+		this.imgUrl.add(imageUrl);
 	}
 }

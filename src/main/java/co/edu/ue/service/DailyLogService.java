@@ -47,11 +47,21 @@ public class DailyLogService implements IDailyLogService {
 				categoryid);
 
 		List<Object[]> categories = dailyLogDAO.listfindCategoriesForEntries(userId);
+		List<Object[]> images = dailyLogDAO.listfindImagesForEntries(userId);
 		System.out.println(entryDetails);
 		System.out.println(categories);
 		Map<Integer, EntryDetailsDTO> entryMap = new HashMap<Integer, EntryDetailsDTO>();
 		for (EntryDetailsDTO entryDetail : entryDetails) {
 			entryMap.put(entryDetail.getEntId(), entryDetail);
+		}
+
+		for (Object[] imageData : images) {
+			int entId = (int) imageData[1];
+			String imageUrl = (String) imageData[0];
+
+			if (entryMap.containsKey(entId)) {
+				entryMap.get(entId).add(imageUrl);
+			}
 		}
 
 		for (Object[] categoryData : categories) {

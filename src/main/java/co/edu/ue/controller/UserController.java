@@ -1,7 +1,6 @@
 package co.edu.ue.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -18,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.edu.ue.entity.Person;
+
 import co.edu.ue.entity.User;
-import co.edu.ue.entity.UserRole;
 import co.edu.ue.service.IPersonService;
 import co.edu.ue.service.IUserRoleService;
 import co.edu.ue.service.IUserService;
@@ -103,27 +101,9 @@ public class UserController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
-        Person person = user.getPerson();
-        personService.addPerson(person);
-        String defaultImagePath = "/images/GdXyg8gWgAAQmW1.jpg";
-        person.setPerPhoto(defaultImagePath);
-        Person lastPerson = personService.findByIdPerson(person.getPerId());
-        user.setPerson(lastPerson);
-
-        String encryptedPassword = passwordEncoder.encode(user.getUsePassword());
-        user.setUsePassword(encryptedPassword);
-        userService.addUser(user);
-        User lastUser = userService.findByIdUser(user.getUseId());
-        System.out.println(lastUser);
-        UserRole newUserRole = new UserRole();
-        newUserRole.setUseId(lastUser.getUseId());
-        newUserRole.setRolId(2);
-        userRoleService.addUserRole(newUserRole);
-        
-
         Map<String, Object> response = new HashMap<>();
         response.put("Status", true);
-        response.put("Data", lastUser);
+        response.put("Data", userService.addUser(user));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

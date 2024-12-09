@@ -14,4 +14,5 @@ public interface IDailyLogRepositoryDao {
 	List<DailyLog> listDailyLogs();
 	List<EntryDetailsDTO> listDailyLogsByDateOrAndCategory(int userId,LocalDate dayLogDate, Integer categoryid);
 	List<Object[]>listfindCategoriesForEntries(int userId);
+	List<Object[]>listfindImagesForEntries(int userId);
 }

@@ -48,6 +48,11 @@ public class DailyLogRepositoryDao implements IDailyLogRepositoryDao{
 		return dailyLogJPA.findCategoriesForEntries(userId);
 	}
 
+	@Override
+	public List<Object[]> listfindImagesForEntries(int userId) {
+		return dailyLogJPA.findImagesForEntry(userId);
+	}
+
 
 
 }
