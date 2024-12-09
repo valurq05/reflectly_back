@@ -106,9 +106,6 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
-    
-
-
 		http
 		.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 		.csrf(cus->cus.disable())
@@ -152,13 +149,14 @@ public class SecurityConfig {
 			.requestMatchers(HttpMethod.POST,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.PUT,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/daily/log/allinfo").hasAnyRole("ADMIN","USER")
-			.requestMatchers(HttpMethod.POST,"/oauth/google").permitAll()
+			.requestMatchers(HttpMethod.POST,"/entry/img").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET, "/images/{filename}").permitAll()
 			.requestMatchers(
 	                "/swagger-ui/**",
 	                "/v3/api-docs/**",
 	                "/swagger-resources/**",
-	                "/webjars/**"
+	                "/webjars/**",
+					"/oauth/google"
 	            ).permitAll()
 	            .anyRequest().authenticated()
 			

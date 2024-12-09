@@ -105,7 +105,7 @@ public class ImageController {
     @Operation(
         summary = "Actualizar con una nueva imagen la imagen de perfil del usuario",
         description = "Permite actualizar la imagen de perfil de usuario",
-        tags = {"Entradas de Diario"}
+        tags = {"Usuarios"}
     )
     public ResponseEntity<?> changeProfileImage(@RequestParam MultipartFile file, @RequestParam int userId) {
     	
@@ -118,6 +118,39 @@ public class ImageController {
             Person person = user.getPerson();
             person.setPerPhoto(filePath);
             personService.upPerson(person);
+            Map<String, Object> response = new HashMap<>();
+	        response.put("Status", true);
+	        response.put("Data", "Imagen de perfil actualizada correctamente");
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+        }
+    	
+    	
+        
+    }
+
+
+    @PostMapping(value = "entry/img", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(
+        summary = "Añadir imagenes a las entradas",
+        description = "Permite subir una imagen a una entrada seleccionada",
+        tags = {"Entradas de Diario"}
+    )
+    public ResponseEntity<?> addEntryImage(@RequestParam MultipartFile file, @RequestParam int entryId) {
+    	
+    	
+    	try {
+    		
+     
+            String filePath = saveImage(file);
+            Image image = new Image();
+            Entry entry = entryService.findByIdEntry(entryId);
+
+            image.setImgUrl(filePath);
+            image.setEntry(entry);
+            imageService.addImage(image);
+            
             Map<String, Object> response = new HashMap<>();
 	        response.put("Status", true);
 	        response.put("Data", "Imagen de perfil actualizada correctamente");
