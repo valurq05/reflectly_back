@@ -203,7 +203,7 @@ public class DailyLogController {
 
 		newEmoLog.setEmoLogDate(new Date());
 		newEmoLog.setUser(userService.findByIdUser(dailyLog.getEmotionalLog().getUser().getUseId()));
-		newEmoLog.setEmotionalState(emoStateService.findByIdEmotionalState(fullInfo.getIdEmoLogState()));
+		newEmoLog.setEmotionalState(emoStateService.findByIdEmotionalState(fullInfo.getIdEmoState()));
 
 		Entry newEntry = dailyLog.getEntry();
 		newEntry.setEntDate(new Date());

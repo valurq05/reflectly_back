@@ -8,16 +8,16 @@ public class UpdateDailyLogDTO {
     private String entText;
     private String entTitle;
     private int idEmoLog;
-    private int idEmoLogState;
+    private int idEmoState;
 
     public UpdateDailyLogDTO() {
     }
 
-    public UpdateDailyLogDTO(String entText, String entTitle, int idEmoLog, int idEmoLogState) {
+    public UpdateDailyLogDTO(String entText, String entTitle, int idEmoLog, int idEmoState) {
         this.entText = entText;
         this.entTitle = entTitle;
         this.idEmoLog = idEmoLog;
-        this.idEmoLogState = idEmoLogState;
+        this.idEmoState = idEmoState;
     }
 
     public String getEntText() {
@@ -44,18 +44,18 @@ public class UpdateDailyLogDTO {
         this.idEmoLog = idEmoLog;
     }
 
-    public int getIdEmoLogState() {
-        return this.idEmoLogState;
+    public int getIdEmoState() {
+        return this.idEmoState;
     }
 
-    public void setIdEmoLogState(int idEmoLogState) {
-        this.idEmoLogState = idEmoLogState;
+    public void setIdEmoState(int idEmoState) {
+        this.idEmoState = idEmoState;
     }
 
     // Método toString
     @Override
     public String toString() {
-        return "UpdateDailyLogDTO{" + "entText='" + entText + '\'' + ", entTitle='" + entTitle + '\'' + ", idEmoLog=" + idEmoLog + ", idEmoLogState=" + idEmoLogState + '}';
+        return "UpdateDailyLogDTO{" + "entText='" + entText + '\'' + ", entTitle='" + entTitle + '\'' + ", idEmoLog=" + idEmoLog + ", idEmoState=" + idEmoState + '}';
     }
 
     // Método equals
@@ -64,7 +64,7 @@ public class UpdateDailyLogDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UpdateDailyLogDTO that = (UpdateDailyLogDTO) o;
-        return idEmoLog == that.idEmoLog && idEmoLogState == that.idEmoLogState &&
+        return idEmoLog == that.idEmoLog && idEmoState == that.idEmoState &&
 
                 Objects.equals(entText, that.entText) && Objects.equals(entTitle, that.entTitle);
     }
@@ -72,6 +72,6 @@ public class UpdateDailyLogDTO {
     // Método hashCode
     @Override
     public int hashCode() {
-        return Objects.hash(entText, entTitle, idEmoLog,idEmoLogState);
+        return Objects.hash(entText, entTitle, idEmoLog,idEmoState);
     }
 }
