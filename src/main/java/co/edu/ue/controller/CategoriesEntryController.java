@@ -1,5 +1,6 @@
 package co.edu.ue.controller;
 
+
 import java.util.HashMap;
 
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ue.entity.CategoriesEntry;
+import co.edu.ue.entity.Entry;
 import co.edu.ue.service.ICategoriesEntryService;
 import co.edu.ue.validator.CategoriesEntryValidator;
 import io.swagger.v3.oas.annotations.Operation;
@@ -111,6 +114,34 @@ public class CategoriesEntryController {
     	Map<String, Object> response = new HashMap<>();
         response.put("Status", true);
         response.put("Data", categoriesEntryService.upCategoriesEntry(CategoriesEntry));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "Categories/by/entry", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(
+        summary = "Actualizar una categoría de una entrada",
+        description = "Actualiza la asociación de una categoria con la entrada de diario.",
+        tags = {"Entradas de Diario"}
+    )
+    public ResponseEntity<?> getCategoriesEntryByeEntity(@RequestParam Integer entry) {
+        
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", categoriesEntryService.findByEntry(entry));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "Categories/entry", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(
+        summary = "Desactivar una categoría de una entrada",
+        description = "Desactiva una categoría de una entrada de diario.",
+        tags = {"Entradas de Diario"}
+    )
+    public ResponseEntity<?> toggleCategoryEntryStatus(@RequestParam Integer catEntId) {
+        categoriesEntryService.toggleStatuseCatEntryId(catEntId);
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", "Estado de la categoría de la entrada actualizado");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

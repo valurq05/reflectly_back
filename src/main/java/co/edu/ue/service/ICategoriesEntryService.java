@@ -20,4 +20,8 @@ public interface ICategoriesEntryService {
 
 	Boolean existsBycategoryAndEntry(Category catId, Entry entId);
 
+	List<CategoriesEntry> findByEntry( Integer entId);
+
+	void toggleStatuseCatEntryId(Integer entryId);
+
 }

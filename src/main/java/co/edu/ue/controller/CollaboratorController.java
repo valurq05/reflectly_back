@@ -62,13 +62,14 @@ public class CollaboratorController {
         tags = {"Colaboradores"}
     )
     public ResponseEntity<?> postCollaborator(@RequestBody Collaborator collaborator, BindingResult result) {
+        System.out.println(collaborator.getEntry() + " " + collaborator.getUser() + " " + collaborator.getColId());
         collaboratorValidator.validate(collaborator, result);
 
         if (result.hasErrors()) {
             Map<String, Object> response = new HashMap<>();
             response.put("Status", false);
             for (ObjectError error : result.getAllErrors()) {
-                response.put(error.getObjectName(), error.getDefaultMessage());
+                response.put("Data", error.getDefaultMessage());
             }
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }

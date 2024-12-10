@@ -45,7 +45,7 @@ public class CategoriesEntryValidator implements Validator {
             errors.rejectValue("entry", "Entrada no encontrada", "No existe una entrada con el ID proporcionado.");
         }
 
-        if (categoriesEntry.getCategory() != null && categoriesEntry.getEntry() != null) {
+        if (categoriesEntry.getCategory() != null && categoriesEntry.getEntry() != null ) {
             boolean categoryExistsForEntry = categoriesEntryService.existsBycategoryAndEntry(
                 categoryService.findByIdCategory(categoriesEntry.getCategory().getCatId()), entryService.findByIdEntry(categoriesEntry.getEntry().getEntId())
             );

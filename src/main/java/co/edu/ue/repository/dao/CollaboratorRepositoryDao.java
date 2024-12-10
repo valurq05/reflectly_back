@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import co.edu.ue.entity.Collaborator;
+import co.edu.ue.entity.Entry;
+import co.edu.ue.entity.User;
 import co.edu.ue.repository.jpa.ICollaborator;
 
 @Repository
@@ -42,6 +44,12 @@ public class CollaboratorRepositoryDao implements ICollaboratorRepositoryDao{
 	public Boolean existsBycolId(int colId) {
 		
 		return collaboratorJPA.existsBycolId(colId);
+	}
+
+	@Override
+	public Boolean existsByUserAndEntry(User useId, Entry entId) {
+		
+		return collaboratorJPA.existsByUserAndEntry(useId, entId);
 	}
 
 }

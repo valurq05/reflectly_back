@@ -19,4 +19,9 @@ public interface ICategoriesEntryRepositoryDao {
 
 	Boolean existsCategoryAndEntry(Category catId, Entry entId);
 
+	List<CategoriesEntry> findByEntry( Integer entId);
+
+	void toggleStatuseCatEntryId(Integer entryId);
+
+
 }

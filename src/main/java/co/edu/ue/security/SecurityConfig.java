@@ -144,12 +144,14 @@ public class SecurityConfig {
 			.requestMatchers(HttpMethod.GET,"/categories/entry").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/categories/entry").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.PUT,"/categories/entry").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.DELETE,"/categories/entry").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET,"/daily/logs").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET,"/daily/log/show").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.PUT,"/daily/log").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/daily/log/allinfo").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/entry/img").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/Categories/by/entry").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET, "/images/{filename}").permitAll()
 			.requestMatchers(
 	                "/swagger-ui/**",

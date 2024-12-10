@@ -6,6 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import co.edu.ue.entity.Collaborator;
+import co.edu.ue.service.ICollaboratorService;
 import co.edu.ue.service.IEntryService;
 import co.edu.ue.service.IUserService;
 
@@ -17,6 +18,9 @@ public class CollaboratorValidator implements Validator {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private ICollaboratorService collaboratorService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -34,11 +38,15 @@ public class CollaboratorValidator implements Validator {
             errors.rejectValue("entry", "entry.notFound", "No existe una entrada con el ID proporcionado");
         }
 
-        // Validar User
+        
         if (collaborator.getUser() == null || collaborator.getUser().getUseId() <= 0) {
             errors.rejectValue("user", "user.invalid", "El ID de usuario es inválido");
         } else if (!userService.existByIdUser(collaborator.getUser().getUseId())) {
             errors.rejectValue("user", "user.notFound", "No existe un usuario con el ID proporcionado");
+        }
+
+        if (collaboratorService.existsByUserAndEntry( collaborator.getUser(), collaborator.getEntry())) {
+            errors.rejectValue("user", "user.alreadyAssociated", "El usuario ya está asociado a esta entrada");
         }
     }
 }

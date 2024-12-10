@@ -19,6 +19,11 @@ public class CategoriesEntry implements Serializable {
 	@Column(name="cat_ent_id")
 	private int catEntId;
 
+	@Column(name = "cat_ent_status", nullable = false)
+	private boolean catEntStatus;
+
+	
+
 	//bi-directional many-to-one association to Category
 	@ManyToOne
 	@JoinColumn(name="cat_id")
@@ -54,6 +59,14 @@ public class CategoriesEntry implements Serializable {
 
 	public void setEntry(Entry entry) {
 		this.entry = entry;
+	}
+
+	public boolean getCatEntStatus() {
+		return catEntStatus;
+	}
+
+	public void setCatEntStatus(boolean catEntStatus) {
+		this.catEntStatus = catEntStatus;
 	}
 
 }

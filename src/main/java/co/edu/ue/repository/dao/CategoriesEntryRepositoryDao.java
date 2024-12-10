@@ -43,13 +43,24 @@ public class CategoriesEntryRepositoryDao implements ICategoriesEntryRepositoryD
 
 	@Override
 	public Boolean existsCatEntId(int catEntId) {
-		return categoriesEntryJPA.existsBycatEntId(catEntId);
+		return categoriesEntryJPA.existsByCatEntIdAndCatEntStatusTrue(catEntId);
 	}
 
 	@Override
 	public Boolean existsCategoryAndEntry(Category catId, Entry entId) {
 
-		return categoriesEntryJPA.existsBycategoryAndEntry(catId, entId);
+		return categoriesEntryJPA.existsByCategoryAndEntryAndCatEntStatusTrue(catId, entId);
+	}
+
+	@Override
+	public List<CategoriesEntry> findByEntry(Integer entId) {
+		
+		return categoriesEntryJPA.findAllByEntry(entId);
+	}
+
+	@Override
+	public void toggleStatuseCatEntryId(Integer entryId) {
+		categoriesEntryJPA.toggleStatusById(entryId);
 	}
 
 }

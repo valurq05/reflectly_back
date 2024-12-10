@@ -47,4 +47,16 @@ public class CategoriesEntryService implements ICategoriesEntryService {
 		return categoriesEntryDAO.existsCategoryAndEntry(catId, entId);
 	}
 
+	@Override
+	public List<CategoriesEntry> findByEntry(Integer entId) {
+		
+		return categoriesEntryDAO.findByEntry(entId);
+
+	}
+
+	@Override
+	public void toggleStatuseCatEntryId(Integer entryId) {
+		categoriesEntryDAO.toggleStatuseCatEntryId(entryId);
+	}
+
 }

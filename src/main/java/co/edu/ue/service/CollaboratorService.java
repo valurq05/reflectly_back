@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.ue.entity.Collaborator;
+import co.edu.ue.entity.Entry;
+import co.edu.ue.entity.User;
 import co.edu.ue.repository.dao.ICollaboratorRepositoryDao;
 
 @Service
@@ -13,6 +15,7 @@ public class CollaboratorService implements ICollaboratorService {
 
 	@Autowired
 	ICollaboratorRepositoryDao collaboratorDAO;
+
 	@Override
 	public List<Collaborator> addCollaborator(Collaborator collaborator) {
 		return collaboratorDAO.insertCollaborator(collaborator);
@@ -36,6 +39,12 @@ public class CollaboratorService implements ICollaboratorService {
 	@Override
 	public Boolean existsBycolId(int colId) {
 		return collaboratorDAO.existsBycolId(colId);
+	}
+
+	@Override
+	public Boolean existsByUserAndEntry(User useId, Entry entId) {
+
+		return collaboratorDAO.existsByUserAndEntry(useId, entId);
 	}
 
 }
