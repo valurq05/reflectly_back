@@ -43,7 +43,7 @@ public interface IDailyLog extends JpaRepository<DailyLog, Integer> {
 			"JOIN dl.entry en " +
 			"JOIN Collaborator c ON c.entry = en " +
 			"JOIN c.user u " +
-			"WHERE u.useId = :userId)")
+			"WHERE u.useId = :userId) AND ce.catEntStatus = true")
 	List<Object[]> findCategoriesForEntries(
 			@Param("userId") int userId);
 
