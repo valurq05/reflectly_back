@@ -156,7 +156,8 @@ public class SecurityConfig {
 	                "/v3/api-docs/**",
 	                "/swagger-resources/**",
 	                "/webjars/**",
-					"/oauth/google"
+					"/oauth/google",
+					"/user/exist"
 	            ).permitAll()
 	            .anyRequest().authenticated()
 			

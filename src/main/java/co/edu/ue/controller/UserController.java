@@ -106,4 +106,16 @@ public class UserController {
         response.put("Data", userService.addUser(user));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping(value = "user/exist", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(
+        summary = "Saber si un usuario ya está registrado con un correo electrónico",
+        description = "Devuelve true o false si un usuario ya está registrado con un correo electrónico.",
+        tags = {"Usuarios"}
+    )
+    public ResponseEntity<Boolean> getUserExistence(@RequestParam String email) {
+    	
+        return new ResponseEntity<Boolean>(userService.existByMailUser(email), HttpStatus.OK);
+    }
+    
 }
