@@ -21,7 +21,7 @@ public class DailyLogService implements IDailyLogService {
 	IDailyLogRepositoryDao dailyLogDAO;
 
 	@Override
-	public List<DailyLog> addDailyLog(DailyLog DailyLog) {
+	public DailyLog addDailyLog(DailyLog DailyLog) {
 		return dailyLogDAO.insertDailyLog(DailyLog);
 	}
 

@@ -17,10 +17,8 @@ public class DailyLogRepositoryDao implements IDailyLogRepositoryDao{
 	IDailyLog dailyLogJPA;
 	
 	@Override
-	public List<DailyLog> insertDailyLog(DailyLog DailyLog) {
-	
-		dailyLogJPA.save(DailyLog);
-		return listDailyLogs();
+	public DailyLog insertDailyLog(DailyLog DailyLog) {
+		return dailyLogJPA.save(DailyLog);
 	}
 
 	@Override
