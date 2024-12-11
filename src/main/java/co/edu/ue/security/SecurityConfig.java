@@ -92,12 +92,12 @@ public class SecurityConfig {
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:4200"); // Permitir solicitudes desde el frontend
-        config.addAllowedHeader("*"); // Permitir todos los headers
-        config.addAllowedMethod("*"); // Permitir todos los métodos (GET, POST, etc.)
-        config.setAllowCredentials(true); // Permitir cookies o credenciales si es necesario
+        config.addAllowedHeader("*"); 
+        config.addAllowedMethod("*"); 
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config); // Aplica configuración CORS a todas las rutas
+        source.registerCorsConfiguration("/**", config); 
         return source;
     }
 
@@ -152,6 +152,7 @@ public class SecurityConfig {
 			.requestMatchers(HttpMethod.POST,"/daily/log/allinfo").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/entry/img").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.POST,"/Categories/by/entry").hasAnyRole("ADMIN","USER")
+			.requestMatchers(HttpMethod.POST,"/collaborator/entry").hasAnyRole("ADMIN","USER")
 			.requestMatchers(HttpMethod.GET, "/images/{filename}").permitAll()
 			.requestMatchers(
 	                "/swagger-ui/**",

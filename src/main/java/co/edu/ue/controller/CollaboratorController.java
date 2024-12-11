@@ -101,4 +101,18 @@ public class CollaboratorController {
         response.put("Data", collaboratorService.upCollaborator(collaborator));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    
+
+    @GetMapping(value = "collaborator/entry", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(
+        summary = "Obtener lista de colaboradores por Id de entrada",
+        description = "Devuelve la información de los colaboradores asociados a una entrada específica.",
+        tags = {"Colaboradores"}
+    )
+    public ResponseEntity<?> getCollaboratorByEntry(@RequestParam int colId) {
+    	Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", collaboratorService.findAllByEntry(colId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

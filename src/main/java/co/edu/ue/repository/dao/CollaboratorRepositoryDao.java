@@ -52,4 +52,10 @@ public class CollaboratorRepositoryDao implements ICollaboratorRepositoryDao{
 		return collaboratorJPA.existsByUserAndEntry(useId, entId);
 	}
 
+	@Override
+	public List<Collaborator> findAllByEntry(Integer colId) {
+		
+		return collaboratorJPA.findAllByEntry(colId);
+	}
+
 }

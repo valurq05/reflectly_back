@@ -20,4 +20,6 @@ public interface ICollaboratorService {
 
 	Boolean existsByUserAndEntry(User useId, Entry entId);
 
+	List<Collaborator> findAllByEntry(Integer colId);
+
 }

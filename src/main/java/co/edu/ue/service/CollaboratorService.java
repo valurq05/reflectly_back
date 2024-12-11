@@ -47,4 +47,10 @@ public class CollaboratorService implements ICollaboratorService {
 		return collaboratorDAO.existsByUserAndEntry(useId, entId);
 	}
 
+	@Override
+	public List<Collaborator> findAllByEntry(Integer colId) {
+		
+		return collaboratorDAO.findAllByEntry(colId);
+	}
+
 }

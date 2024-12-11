@@ -14,4 +14,5 @@ public interface ICollaboratorRepositoryDao {
 	List<Collaborator> listCollaborators();
 	Boolean existsBycolId(int colId);
 	Boolean existsByUserAndEntry(User useId, Entry entId);
+	List<Collaborator> findAllByEntry(Integer colId);
 }

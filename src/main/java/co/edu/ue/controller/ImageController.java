@@ -120,7 +120,7 @@ public class ImageController {
             personService.upPerson(person);
             Map<String, Object> response = new HashMap<>();
 	        response.put("Status", true);
-	        response.put("Data", "Imagen de perfil actualizada correctamente");
+	        response.put("Data", filePath);
 	        return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
