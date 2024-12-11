@@ -272,6 +272,7 @@ public class DailyLogController {
 			newDailyLog.setEmotionalLog(lastEmoLog);
 			newDailyLog.setEntry(lastEntry);
 			
+			System.out.println(newDailyLog.getDayLogDate() + " " + newDailyLog.getEmotionalLog().getEmoLogId() + " " + newDailyLog.getEntry().getEntId());
 			Map<String, Object> response = new HashMap<>();
 	        response.put("Status", true);
 	        response.put("Data", DailyLogService.addDailyLog(newDailyLog));
