@@ -282,5 +282,20 @@ public class DailyLogController {
 			
 		}
 
+		@PostMapping(value ="all/daily/log/user", produces = MediaType.APPLICATION_JSON_VALUE)
+		@Operation(
+			    summary = "Obtener todas las entradas de un usuario",
+			    description = "Devuelve todas las entradas de un usuario",
+			    tags = {"Análisis de Estado de Ánimo"}
+			)
+		public ResponseEntity<?> getAllDailyLogByUser(@RequestParam int userId){
+			Map<String, Object> response = new HashMap<>();
+			response.put("Status", true);
+			response.put("Data", DailyLogService.allUserEntries(userId));
+			return new ResponseEntity<>(response, HttpStatus.OK);
+
+
+		}
+
 
 }

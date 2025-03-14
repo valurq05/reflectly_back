@@ -31,8 +31,6 @@ public class UserValidator implements Validator{
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
-
-    
         if (user.getUseMail() == null || user.getUseMail().isEmpty()) {
             errors.rejectValue("useMail", "Email vacío", "El correo electrónico no puede estar vacío");
         } else if (!Pattern.matches(EMAIL_REGEX, user.getUseMail())) {

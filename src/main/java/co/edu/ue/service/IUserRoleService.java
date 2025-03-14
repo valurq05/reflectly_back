@@ -11,4 +11,5 @@ public interface IUserRoleService {
 	UserRole findByIdUserRole(int id);
 	List<UserRole> listAllUserRoles();
 	Boolean existsByuseRolId(int useRolId);
+	List<UserRole> findByUseId(int useId);
 }

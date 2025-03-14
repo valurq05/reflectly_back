@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,5 +77,21 @@ public class DailyLogService implements IDailyLogService {
 
 		return new ArrayList<>(entryMap.values());
 	}
+
+	@Override
+	public String allUserEntries(int userId) {
+		List<EntryDetailsDTO> entryDetails = dailyLogDAO.listDailyLogsByDateOrAndCategory(userId, null, null);
+
+		return entryDetails.stream()
+        .map(entry -> entry.getEntDate() + ": " + stripHtmlTags(entry.getEntText()))
+        .collect(Collectors.joining("\n\n"));
+
+
+	}
+
+	private String stripHtmlTags(String html) {
+		return html.replaceAll("<[^>]*>", ""); 
+	}
+	
 
 }

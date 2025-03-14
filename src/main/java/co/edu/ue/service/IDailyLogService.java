@@ -14,6 +14,7 @@ public interface IDailyLogService {
 	DailyLog findByIdDailyLog(int id);
 	List<DailyLog> listAllDailyLogs();
 	List<EntryDetailsDTO> listAllDailyLogsByDateOrAndCategory(int userId,LocalDate dayLogDate, Integer categoryid);
+	String allUserEntries(int userId);
 
 	
 

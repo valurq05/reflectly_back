@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ue.entity.LogInRequest;
 import co.edu.ue.entity.User;
+import co.edu.ue.entity.UserRole;
 import co.edu.ue.service.IUserService;
+import co.edu.ue.service.UserRoleService;
 import co.edu.ue.utils.TokenEncryptionUtil;
 import co.edu.ue.validator.UserValidator;
 import io.jsonwebtoken.Claims;
@@ -47,6 +49,8 @@ public class AuthController {
 	IUserService userService;
 	@Autowired
 	UserValidator userValidator;
+	@Autowired
+	UserRoleService userRoleService;
 
 	public AuthController(AuthenticationManager authManager) {
 		super();
@@ -101,11 +105,11 @@ public class AuthController {
 					.build();
 
 			User userLog = userService.findByMailUser(authentication.getName());
-
+			List<UserRole> roles = userRoleService.findByUseId(userLog.getUseId()); 
 			Map<String, Object> response = new HashMap<String, Object>();
 			response.put("Token", token);
-
 			response.put("Data", userLog);
+			response.put("Roles", roles);
 			response.put("Status", true);
 
 			HttpHeaders headers = new HttpHeaders();

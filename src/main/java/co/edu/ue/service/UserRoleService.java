@@ -38,4 +38,9 @@ public class UserRoleService implements IUserRoleService{
 		return userRoleDAO.existsUseRolId(useRolId);
 	}
 
+	@Override
+	public List<UserRole> findByUseId(int useId) {
+		return userRoleDAO.findByUseId(useId);
+	}
+
 }

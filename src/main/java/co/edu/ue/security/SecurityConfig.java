@@ -113,6 +113,7 @@ public class SecurityConfig {
 			aut.requestMatchers(HttpMethod.GET,"/users").hasAnyRole("ADMIN","USER")			
 			.requestMatchers(HttpMethod.GET,"/user").hasAnyRole("ADMIN","USER")	
 			.requestMatchers(HttpMethod.POST,"/register").permitAll()
+			.requestMatchers(HttpMethod.POST,"/register/admin").permitAll()
 			.requestMatchers(HttpMethod.POST,"/login").permitAll()
 			.requestMatchers(HttpMethod.GET,"/persons").permitAll()
 			.requestMatchers(HttpMethod.POST,"refresh").permitAll()

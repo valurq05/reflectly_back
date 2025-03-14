@@ -46,7 +46,7 @@ public class UserService implements IUserService{
 
 	@Override
 	public User upeUser(User User) {
-		// TODO Auto-generated method stub
+		
 		return userRepository.updateUser(User);
 	}
 
@@ -78,6 +78,28 @@ public class UserService implements IUserService{
 	public Boolean existByIdUser(int id) {
 		// TODO Auto-generated method stub
 		return userRepository.existIdUser(id);
+	}
+
+	@Override
+	public User addUserAdmin(User user) {
+		Person person = user.getPerson();
+        personService.addPerson(person);
+        String defaultImagePath = "/images/GdXyg8gWgAAQmW1.jpg";
+        person.setPerPhoto(defaultImagePath);
+        Person lastPerson = personService.findByIdPerson(person.getPerId());
+        user.setPerson(lastPerson);
+
+        String encryptedPassword = passwordEncoder.encode(user.getUsePassword());
+        user.setUsePassword(encryptedPassword);
+        userRepository.insertUser(user);
+        User lastUser = userRepository.findIdUser(user.getUseId());
+        System.out.println(lastUser);
+        UserRole newUserRole = new UserRole();
+        newUserRole.setUseId(lastUser.getUseId());
+        newUserRole.setRolId(1);
+        userRoleService.addUserRole(newUserRole);
+		
+		return lastUser;
 	}
 
 }

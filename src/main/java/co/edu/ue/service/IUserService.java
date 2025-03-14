@@ -7,6 +7,7 @@ import co.edu.ue.entity.User;
 public interface IUserService {
 
 	User addUser(User user);
+	User addUserAdmin(User user);
 	User upeUser(User User);
 	User findByIdUser(int id);
 	List<User> listAllUser();

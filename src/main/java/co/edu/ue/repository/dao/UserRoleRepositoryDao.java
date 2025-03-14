@@ -40,4 +40,9 @@ public class UserRoleRepositoryDao implements IUserRoleRepositoryDao{
 		return userRoleJPA.existsByrolId(useRolId);
 	}
 
+	@Override
+	public List<UserRole> findByUseId(int useId) {
+		return userRoleJPA.findByuseId(useId);
+	}
+
 }

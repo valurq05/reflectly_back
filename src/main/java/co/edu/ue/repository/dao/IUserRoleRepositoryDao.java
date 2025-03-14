@@ -11,4 +11,5 @@ public interface IUserRoleRepositoryDao{
 	UserRole findIdUserRole(int id);
 	List<UserRole> listUserRoles();
 	Boolean existsUseRolId(int useRolId);
+	List<UserRole> findByUseId(int useId);
 }
