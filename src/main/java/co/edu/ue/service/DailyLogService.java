@@ -83,15 +83,13 @@ public class DailyLogService implements IDailyLogService {
 		List<EntryDetailsDTO> entryDetails = dailyLogDAO.listDailyLogsByDateOrAndCategory(userId, null, null);
 
 		return entryDetails.stream()
-        .map(entry -> entry.getEntDate() + ": " + stripHtmlTags(entry.getEntText()))
-        .collect(Collectors.joining("\n\n"));
-
+				.map(entry -> entry.getEntDate() + ": " + stripHtmlTags(entry.getEntText()))
+				.collect(Collectors.joining(" "));
 
 	}
 
 	private String stripHtmlTags(String html) {
-		return html.replaceAll("<[^>]*>", ""); 
+		return html.replaceAll("<[^>]*>", "");
 	}
-	
 
 }

@@ -105,11 +105,14 @@ public class AuthController {
 					.build();
 
 			User userLog = userService.findByMailUser(authentication.getName());
-			List<UserRole> roles = userRoleService.findByUseId(userLog.getUseId()); 
-			Map<String, Object> response = new HashMap<String, Object>();
+			List<UserRole> roles = userRoleService.findByUseId(userLog.getUseId());
+			Map<String, Object> data = new HashMap<>();
+			data.put("user", userLog);
+			data.put("roles", roles);
+
+			Map<String, Object> response = new HashMap<>();
 			response.put("Token", token);
-			response.put("Data", userLog);
-			response.put("Roles", roles);
+			response.put("Data", data);
 			response.put("Status", true);
 
 			HttpHeaders headers = new HttpHeaders();
