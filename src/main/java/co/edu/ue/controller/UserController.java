@@ -103,7 +103,7 @@ public class UserController {
 
         if (userService.existByMailUser(user.getUseMail())) {
             User userFound = userService.findByMailUser(user.getUseMail());
-            
+
             List<UserRole> roles = userRoleService.findByUseId(userFound.getUseId());
             boolean isAdmin = roles.stream().anyMatch(role -> role.getRolId() == 1);
 

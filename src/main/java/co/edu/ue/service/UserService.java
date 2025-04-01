@@ -52,31 +52,31 @@ public class UserService implements IUserService{
 
 	@Override
 	public User findByIdUser(int id) {
-		// TODO Auto-generated method stub
+		
 		return userRepository.findIdUser(id);
 	}
 
 	@Override
 	public List<User> listAllUser() {
-		// TODO Auto-generated method stub
+		
 		return userRepository.listUser();
 	}
 
 	@Override
 	public User findByMailUser(String mail) {
-		// TODO Auto-generated method stub
+		
 		return userRepository.findMailUser(mail);
 	}
 
 	@Override
 	public Boolean existByMailUser(String mail) {
-		// TODO Auto-generated method stub
+		
 		return userRepository.existMailUser(mail);
 	}
 
 	@Override
 	public Boolean existByIdUser(int id) {
-		// TODO Auto-generated method stub
+		
 		return userRepository.existIdUser(id);
 	}
 
