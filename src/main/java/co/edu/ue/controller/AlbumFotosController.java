@@ -84,8 +84,12 @@ public class AlbumFotosController {
     @GetMapping(value = "user/{userId}/fotos", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Obtener fotos por usuario", description = "Devuelve todas las fotos asociadas a un usuario específico.", tags = {
             "Álbum de Fotos" })
-    public ResponseEntity<List<AlbumFoto>> getPhotosByUser(@PathVariable int userId) {
-        return new ResponseEntity<>(albumFotosService.getByUserId(userId), HttpStatus.OK);
+    public ResponseEntity<?> getPhotosByUser(@PathVariable int userId) {
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Status", true);
+        response.put("Data", albumFotosService.getByUserId(userId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping(value = "foto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -225,7 +229,6 @@ public class AlbumFotosController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
 
     @PostMapping("/clasificar-imagen")
     @Operation(summary = "Clasificar una imagen subida", description = "Permite subir una imagen y clasificarla utilizando la API de IA.", tags = {
