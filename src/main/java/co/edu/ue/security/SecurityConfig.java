@@ -154,6 +154,7 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.DELETE, "/foto/{id}").hasAnyRole("ADMIN", "USER")
 						.requestMatchers(HttpMethod.PUT, "/foto/visibilidad/{id}").hasAnyRole("ADMIN", "USER")
 						.requestMatchers(HttpMethod.GET, "/fotos/archivo/{filename}").permitAll()
+						.requestMatchers(HttpMethod.GET, "/clasificar-imagen").permitAll()
 
 						.requestMatchers(
 								"/swagger-ui/**",

@@ -1,6 +1,9 @@
 package co.edu.ue.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,13 +15,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+// Eliminamos la dependencia de Apache Commons IO para usar APIs estándar de Java
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +37,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.edu.ue.entity.AlbumFoto;
@@ -42,12 +52,20 @@ public class AlbumFotosController {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    // URL de la API Gateway para clasificación de imágenes
+    @Value("${api.gateway.url:http://localhost:5000}")
+    private String apiGatewayUrl;
+
     @Autowired
     private IAlbumFotosService albumFotosService;
 
-    // Eliminamos la inyección de IUserService
-    // @Autowired
-    // private IUserService userService;
+    @Autowired
+    private RestTemplate restTemplate;
+
+    // Constructor para inyectar RestTemplate si no está configurado globalmente
+    public AlbumFotosController() {
+        this.restTemplate = new RestTemplate();
+    }
 
     @GetMapping(value = "fotos", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Listar todas las fotos del álbum", description = "Devuelve una lista de todas las fotos disponibles en el álbum.", tags = {
@@ -208,6 +226,50 @@ public class AlbumFotosController {
         }
     }
 
+
+    @PostMapping("/clasificar-imagen")
+    @Operation(summary = "Clasificar una imagen subida", description = "Permite subir una imagen y clasificarla utilizando la API de IA.", tags = {
+            "Álbum de Fotos", "IA" })
+    public ResponseEntity<?> classifyUploadedImage(@RequestParam String filename) {
+        try {
+            Path filePath = Paths.get(uploadDir).resolve(filename);
+            Resource resource = new UrlResource(filePath.toUri());
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            if (resource.exists()) {
+                body.add("imagen", ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(resource));
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+
+            // Crear la entidad HTTP con headers y body
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body);
+
+            // Realizar la solicitud POST al endpoint de clasificación
+            String classificacionUrl = apiGatewayUrl + "/clasificar";
+            ResponseEntity<Map> responseEntity = restTemplate.exchange(
+                    classificacionUrl,
+                    HttpMethod.POST,
+                    requestEntity,
+                    Map.class);
+
+            // Devolver la respuesta de la API
+            Map<String, Object> response = new HashMap<>();
+            response.put("Status", true);
+            response.put("nombreArchivo", filename);
+            response.put("clasificacion", responseEntity.getBody());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al procesar la imagen: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al procesar la solicitud: " + e.getMessage());
+        }
+    }
+
     private String saveImage(MultipartFile file) throws IOException {
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
@@ -220,4 +282,5 @@ public class AlbumFotosController {
 
         return fileName;
     }
+
 }
